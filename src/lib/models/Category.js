@@ -1,3 +1,5 @@
+// src/lib/models/Category.js
+
 import mongoose from "mongoose";
 const { Schema } = mongoose;
 
