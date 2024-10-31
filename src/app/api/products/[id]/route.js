@@ -1,29 +1,39 @@
-// api/products/[id]/route.js
 import { connectDB } from '@/lib/db/connectDB';
 import AddProduct from '@/lib/models/AddProduct';
 import mongoose from 'mongoose';
+
 export async function PUT(req, { params }) {
-    await connectDB();
-    const { id } = params;
-  
-    try {
-      const updatedData = await req.json();
-      console.log("Attempting update with data:", updatedData);
-  
-      // Basic operation: Just finding the product for now
-      const product = await AddProduct.findById(id);
-      if (!product) {
-        console.log("Product not found with ID:", id);
-        return new Response(JSON.stringify({ error: 'Product not found' }), { status: 404 });
-      }
-  
-      // Returning a successful dummy response for test purposes
-      return new Response(JSON.stringify({ message: 'Update route reached successfully' }), { status: 200 });
-    } catch (error) {
-      console.error("Error during PUT request:", error);
-      return new Response(JSON.stringify({ error: 'Error in PUT route' }), { status: 500 });
+  await connectDB();
+  const { id } = params;
+
+  try {
+    // Parse the updated data from the request
+    const updatedData = await req.json();
+    console.log("Attempting update with data:", updatedData);
+
+    // Validate the ID
+    if (!mongoose.Types.ObjectId.isValid(id)) {
+      return new Response(JSON.stringify({ error: 'Invalid product ID' }), { status: 400 });
     }
+
+    // Find and update the product
+    const product = await AddProduct.findByIdAndUpdate(id, updatedData, {
+      new: true, // Return the updated document
+      runValidators: true, // Ensure validation is applied to updated data
+    });
+
+    if (!product) {
+      console.log("Product not found with ID:", id);
+      return new Response(JSON.stringify({ error: 'Product not found' }), { status: 404 });
+    }
+
+    console.log("Product updated successfully:", product);
+    return new Response(JSON.stringify({ message: 'Product updated successfully', product }), { status: 200 });
+  } catch (error) {
+    console.error("Error during PUT request:", error);
+    return new Response(JSON.stringify({ error: 'Error in PUT route' }), { status: 500 });
   }
+}
   
 
 // Handle DELETE requests for deleting a product
