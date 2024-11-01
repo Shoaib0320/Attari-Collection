@@ -2,6 +2,31 @@ import { connectDB } from '@/lib/db/connectDB';
 import AddProduct from '@/lib/models/AddProduct';
 import mongoose from 'mongoose';
 
+
+export async function GET(req, { params }) {
+  await connectDB();
+  const { id } = params;
+
+  try {
+      // Validate the ID
+      if (!mongoose.Types.ObjectId.isValid(id)) {
+          return new Response(JSON.stringify({ message: 'Invalid Product ID' }), { status: 400 });
+      }
+
+      const product = await AddProduct.findById(id).populate('category');
+
+      if (!product) {
+          return new Response(JSON.stringify({ message: "Product not found" }), { status: 404 });
+      }
+
+      return new Response(JSON.stringify(product), { status: 200 });
+  } catch (error) {
+      console.error("Error fetching product:", error);
+      return new Response(JSON.stringify({ message: "Internal Server Error" }), { status: 500 });
+  }
+}
+
+
 export async function PUT(req, { params }) {
   await connectDB();
   const { id } = params;

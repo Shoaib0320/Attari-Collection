@@ -124,22 +124,6 @@ const handleProductSubmit = async (event) => {
     }
   }
 };
-
-  //   // Delete Product
-  // const handleDeleteProduct = async (productId) => {
-   
-  //   if (confirm("Are you sure you want to delete this category?")) {
-  //     try {
-  //       const response = await axios.delete(`/api/products/${productId}`);
-  //       if (response.status === 200) {
-  //         console.log("Product deleted successfully");
-  //         fetchProducts(); // Refresh the products list after deletion
-  //       }
-  //     } catch (error) {
-  //       console.error("Error deleting product: ", error.message);
-  //     }
-  //   }
-  // };
   
   // Delete Product
 const handleDeleteProduct = async (productId) => {
