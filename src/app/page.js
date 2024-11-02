@@ -1,9 +1,13 @@
-import Image from "next/image";
+import HeroSection from "@/components/Hero-Section/HeroSection";
+import Navbar from "@/components/Root-Navbar/Navbar";
 
-export default function Home() {
-  return (
-    <div className="min-h-screen">
-      <h1 className="font-bold text-3xl p-20 text-center">Attari Collection</h1>
+
+export default function Home(){
+    return(
+        <div>
+        <Navbar />
+        <h1 className="text-3xl text-center font-serif my-10">Attari Collection</h1>
+        <HeroSection />
     </div>
-  );
+    )
 }

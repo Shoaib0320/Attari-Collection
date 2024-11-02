@@ -1,12 +1,15 @@
+"use client"
+
 import { Disclosure, DisclosureButton, DisclosurePanel, Menu, MenuButton, MenuItem, MenuItems } from '@headlessui/react'
 import { Bars3Icon, ShoppingCartIcon, XMarkIcon } from '@heroicons/react/24/outline'
 import Link from 'next/link'
+import { useEffect, useState } from 'react'
 
 const navigation = [
-  { name: 'Home', href: '/home', current: true },
-  { name: 'About', href: '/about', current: false },
-  { name: 'Products', href: '/products', current: false },
-  { name: 'Contact Us', href: '/contact', current: false },
+  { name: 'Home', href: '/' },
+  { name: 'About', href: '/about' },
+  { name: 'Products', href: '/products' },
+  { name: 'Contact Us', href: '/contact' },
 ]
 
 function classNames(...classes) {
@@ -14,6 +17,13 @@ function classNames(...classes) {
 }
 
 export default function Navbar() {
+  const [currentPath, setCurrentPath] = useState('');
+
+  useEffect(() => {
+    // Set the current path on initial render
+    setCurrentPath(window.location.pathname);
+  }, []);
+
   return (
     <Disclosure as="nav" className="bg-gray-800">
       <div className="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8">
@@ -41,9 +51,9 @@ export default function Navbar() {
                   <Link
                     key={item.name}
                     href={item.href}
-                    aria-current={item.current ? 'page' : undefined}
+                    aria-current={currentPath === item.href ? 'page' : undefined}
                     className={classNames(
-                      item.current ? 'bg-gray-900 text-white' : 'text-gray-300 hover:bg-gray-700 hover:text-white',
+                      currentPath === item.href ? 'bg-gray-900 text-white' : 'text-gray-300 hover:bg-gray-700 hover:text-white',
                       'rounded-md px-3 py-2 text-sm font-medium',
                     )}
                   >
@@ -60,7 +70,7 @@ export default function Navbar() {
                     className="relative rounded-full bg-gray-800 p-1 text-gray-400 hover:text-white focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800"
                     >
                     <span className="absolute -inset-1.5" />
-                    <span className="sr-only">View notifications</span>
+                    <span className="sr-only">View cart</span>
                         <ShoppingCartIcon aria-hidden="true" className="h-6 w-6" />
                 </button>
             </Link>
@@ -114,9 +124,9 @@ export default function Navbar() {
               key={item.name}
               as="a"
               href={item.href}
-              aria-current={item.current ? 'page' : undefined}
+              aria-current={currentPath === item.href ? 'page' : undefined}
               className={classNames(
-                item.current ? 'bg-gray-900 text-white' : 'text-gray-300 hover:bg-gray-700 hover:text-white',
+                currentPath === item.href ? 'bg-gray-900 text-white' : 'text-gray-300 hover:bg-gray-700 hover:text-white',
                 'block rounded-md px-3 py-2 text-base font-medium',
               )}
             >
@@ -128,9 +138,3 @@ export default function Navbar() {
     </Disclosure>
   )
 }
-
-
-
-
-
-
