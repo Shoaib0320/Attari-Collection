@@ -1,43 +1,3 @@
-// // /pages/api/cart.js
-// import { connectDB } from '@/lib/db/connectDB';
-// import Cart from '../../../lib/models/AddToCart';
-
-// export default async function handler(req, res) {
-//     await connectDB(); // Connect to the MongoDB database
-
-//     if (req.method === 'POST') {
-//         const { productId, title, description, price, quantity, imageUrl, category } = req.body;
-
-//         if (!productId || !quantity || !price) {
-//             return res.status(400).json({ error: 'Required fields are missing' });
-//         }
-
-//         try {
-//             const cartItem = await Cart.create({
-//                 productId,
-//                 title,
-//                 description,
-//                 price,
-//                 quantity,
-//                 imageUrl,
-//                 category
-//             });
-
-//             return res.status(201).json({ message: 'Product added to cart', cartItem });
-//         } catch (error) {
-//             console.error(error);
-//             return res.status(500).json({ error: 'Failed to add product to cart' });
-//         }
-//     } else {
-//         res.setHeader('Allow', ['POST']);
-//         res.status(405).end(`Method ${req.method} Not Allowed`);
-//     }
-// }
-
-
-
-
-
 // /app/api/addToCart/route.js
 import { connectDB } from '@/lib/db/connectDB';
 import Cart from '../../../lib/models/AddToCart';
@@ -63,6 +23,69 @@ export async function POST(request) {
     } catch (error) {
         console.error(error);
         return new Response(JSON.stringify({ message: 'Error adding product to cart' }), {
+            status: 500,
+            headers: {
+                'Content-Type': 'application/json',
+            },
+        });
+    }
+}
+
+
+
+// GET request to fetch all cart items
+export async function GET() {
+    try {
+        // Connect to MongoDB
+        await connectDB();
+
+        // Fetch all cart items from the database
+        const cartItems = await Cart.find(); // Assuming Cart is your model for cart items
+
+        return new Response(JSON.stringify(cartItems), {
+            status: 200,
+            headers: {
+                'Content-Type': 'application/json',
+            },
+        });
+    } catch (error) {
+        console.error(error);
+        return new Response(JSON.stringify({ message: 'Error fetching cart items' }), {
+            status: 500,
+            headers: {
+                'Content-Type': 'application/json',
+            },
+        });
+    }
+}
+
+export async function DELETE(request) {
+    try {
+        await connectDB();
+        const { id } = await request.json(); // Extract the ID from the request body
+        console.log('Received ID to delete:', id); // Debugging log
+
+        // Remove the item with the corresponding ID
+        const deletedItem = await Cart.findByIdAndDelete(id);
+
+        if (!deletedItem) {
+            return new Response(JSON.stringify({ message: 'Item not found' }), {
+                status: 404,
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+            });
+        }
+
+        return new Response(JSON.stringify({ message: 'Item deleted successfully' }), {
+            status: 200,
+            headers: {
+                'Content-Type': 'application/json',
+            },
+        });
+    } catch (error) {
+        console.error('Error deleting item:', error); // More specific error logging
+        return new Response(JSON.stringify({ message: 'Error deleting item from cart' }), {
             status: 500,
             headers: {
                 'Content-Type': 'application/json',

@@ -34,4 +34,5 @@ const CartSchema = new mongoose.Schema({
     }
 });
 
-export default mongoose.models.Cart || mongoose.model('AddToCart', CartSchema);
+// Check if the Cart model already exists to prevent overwrite errors
+export default mongoose.models.Cart || mongoose.model('Cart', CartSchema);

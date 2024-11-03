@@ -26,7 +26,7 @@ export default function ProductsTable({ products, onEditProduct , onDeleteProduc
 
     const fetchProducts = async () => {
         try {
-          const response = await axios.get('/api/products');
+          const response = axios.get('/api/products');
           setProducts(response.data);
         } catch (error) {
           console.error("Error fetching products:", error.message);
