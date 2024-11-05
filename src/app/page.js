@@ -1,11 +1,14 @@
 import HeroSection from "@/components/Hero-Section/HeroSection";
 import Navbar from "@/components/Root-Navbar/Navbar";
+import { auth } from "./auth";
 
+export default async function Home(){
+    const session = await auth();
 
-export default function Home(){
     return(
         <div>
-        <Navbar />
+        {/* <Navbar /> */}
+        <Navbar session={session} />
         <h1 className="text-3xl text-center font-serif my-10">Attari Collection</h1>
         <HeroSection />
     </div>

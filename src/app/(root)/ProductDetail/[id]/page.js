@@ -142,32 +142,23 @@ const ProductDetail = ({ params }) => {
     const [quantity, setQuantity] = useState(1);
     const router = useRouter(); // Initialize router
 
-    // useEffect(() => {
-    //     const fetchProduct = async () => {
-    //         const response = await fetch(`/api/products/${id}`);
-    //         const data = await response.json();
-    //         setProduct(data);
-    //     };
-
-    //     if (id) {
-    //         fetchProduct();
-    //     }
-    // }, [id]);
-
     useEffect(() => {
         const fetchProduct = async () => {
             try {
                 console.log("Fetching product details...");
                 const response = await fetch(`/api/products/${id}`);
                 
-                // Check if response is OK
+                // Log the response status
+                console.log(`Response status: ${response.status}`);
+    
                 if (!response.ok) {
-                    console.error(`Error: ${response.status} - ${response.statusText}`);
-                    alert("Failed to load product details. Please check your network or try again later.");
+                    // Log and alert the specific error
+                    const errorMessage = await response.text(); // Get error message text
+                    console.error(`Error: ${response.status} - ${errorMessage}`);
+                    alert("Failed to load product details: " + errorMessage);
                     return;
                 }
                 
-                // Attempt to parse JSON
                 const data = await response.json();
                 console.log("Product data:", data);
                 setProduct(data);
@@ -260,7 +251,7 @@ const ProductDetail = ({ params }) => {
                                 </span>
                                 <button
                                     onClick={handleDecrease}
-                                    className="rounded-full w-10 h-10 flex items-center justify-center ml-auto font-bold text-white bg-gray-700 border-0 py-2 px-6 focus:outline-none hover:bg-gray-300 hover:text-black"
+                                    className="rounded-full w-10 h-10 flex items-center justify-center ml-auto font-bold text-white bg-gray-700 border-0 focus:outline-none hover:bg-gray-300 hover:text-black"
                                 >
                                     -
                                 </button>
