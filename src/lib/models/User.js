@@ -1,17 +1,34 @@
+// import mongoose from "mongoose";
+// const { Schema } = mongoose;
+
+// const userSchema = new Schema({
+//   fullname: String,
+//   email: String,
+//   password: String,
+//   profileImg: String,
+//   address: String,
+//   bio: String,
+// });
+
+// export const UserModal =
+//   mongoose.models.Users || mongoose.model("Users", userSchema);
+
+
+
+
+
+
 import mongoose from "mongoose";
+import { number } from "zod";
+
 const { Schema } = mongoose;
 
 const userSchema = new Schema({
-  fullname: String,
+  firstName: String,
+  lastName: String,
   email: String,
-  password: String,
-  location: {
-    lat: Number,
-    long: Number,
-  },
-  profileImg: String,
-  address: String,
-  bio: String,
+  picture: String,
+  role: { type: String, default: "user", enum: ["user", "doctor", "admin"] },
 });
 
 export const UserModal =
