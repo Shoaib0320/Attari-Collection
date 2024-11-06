@@ -1,38 +1,33 @@
-// "use client"
+// "use client";
 
 // import {
-//     Table,
-//     TableBody,
-//     TableCaption,
-//     TableCell,
-//     TableHead,
-//     TableHeader,
-//     TableRow,
-//   } from "@/components/ui/table";
+//   Table,
+//   TableBody,
+//   TableCaption,
+//   TableCell,
+//   TableHead,
+//   TableHeader,
+//   TableRow,
+// } from "@/components/ui/table";
 // import { useEffect, useState } from "react";
-
 // import axios from 'axios';
 // import { Button } from "../ui/button";
 
-// // export default function ProductTable() {
+// export default function ProductsTable({ products = [], onEditProduct, onDeleteProduct }) {
+//   const [fetchedProducts, setFetchedProducts] = useState(products);
 
-// export default function ProductsTable({ products, onEditProduct , onDeleteProduct}) {
+//   useEffect(() => {
+//     fetchProducts();
+//   }, []);
 
-//     // const [products, setProducts] = useState([]);
-
-//     useEffect(() => {
-//         fetchProducts();
-//       }, []);
-
-//     const fetchProducts = async () => {
-//         try {
-//           const response = axios.get('/api/products');
-//           setProducts(response.data);
-//         } catch (error) {
-//           console.error("Error fetching products:", error.message);
-//         }
-//       };
-
+//   const fetchProducts = async () => {
+//     try {
+//       const response = await axios.get('/api/products');
+//       setFetchedProducts(response.data); // Update the state with fetched data
+//     } catch (error) {
+//       console.error("Error fetching products:", error.message);
+//     }
+//   };
 
 //   return (
 //     <div className="min-h-screen mx-10">
@@ -41,7 +36,7 @@
 //       </div>
 //       <Table>
 //         <TableCaption>A list of your Products.</TableCaption>
-//         <TableHeader className={'bg-slate-300 text-white'}>
+//         <TableHeader className="bg-slate-300 text-white">
 //           <TableRow>
 //             <TableHead>Image</TableHead>
 //             <TableHead className="w-[100px]">Title</TableHead>
@@ -52,12 +47,10 @@
 //           </TableRow>
 //         </TableHeader>
 //         <TableBody>
-//           {products.map(product => (
+//           {fetchedProducts.map((product) => (
 //             <TableRow key={product.title}>
 //               <TableCell className="text-right">
-//               <td className="p-3">
-//                   <img src={product.imageUrl} alt={product.title} className="w-12 h-12 rounded-full" />
-//                 </td>
+//                 <img src={product.imageUrl} alt={product.title} className="w-12 h-12 rounded-full" />
 //               </TableCell>
 //               <TableCell className="font-medium">{product.title}</TableCell>
 //               <TableCell>{product.description}</TableCell>
@@ -74,7 +67,14 @@
 //         </TableBody>
 //       </Table>
 //     </div>
-// )}
+//   );
+// }
+
+
+
+
+
+
 
 
 
@@ -128,17 +128,20 @@ export default function ProductsTable({ products = [], onEditProduct, onDeletePr
         </TableHeader>
         <TableBody>
           {fetchedProducts.map((product) => (
-            <TableRow key={product.title}>
+            <TableRow key={product._id}>
               <TableCell className="text-right">
                 <img src={product.imageUrl} alt={product.title} className="w-12 h-12 rounded-full" />
               </TableCell>
               <TableCell className="font-medium">{product.title}</TableCell>
               <TableCell>{product.description}</TableCell>
               <TableCell>{product.price}</TableCell>
-              <TableCell>{product.category?.title}</TableCell>
+              <TableCell>
+                {/* Check if category exists and display title */}
+                {product.category ? product.category.title : "No Category"}
+              </TableCell>
               <TableCell>
                 <div style={{ display: 'flex', gap: '20px' }}>
-                  <Button onClick={() => onEditProduct(product)}>Edit</Button> 
+                  <Button onClick={() => onEditProduct(product)}>Edit</Button>
                   <Button onClick={() => onDeleteProduct(product._id)}>Delete</Button>
                 </div>
               </TableCell>

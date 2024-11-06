@@ -176,13 +176,15 @@
 
 
 
-"use server"
+// "use server"
 
 import { signOut } from '@/app/auth';
 import { Disclosure, DisclosureButton, DisclosurePanel, Menu, MenuButton, MenuItem, MenuItems } from '@headlessui/react'
 import { Bars3Icon, ShoppingCartIcon, XMarkIcon } from '@heroicons/react/24/outline'
 import Image from 'next/image';
 import Link from 'next/link';
+import { Button } from '../ui/button';
+import SignOut from '../SignOut/Signout';
 
 const navigation = [
   { name: 'Home', href: '/' },
@@ -280,21 +282,7 @@ export default async function Navbar({ session }) {
                         Settings
                       </Link>
                     </MenuItem>
-                    <MenuItem>
-                      <form
-                        action={async () => {
-                          "use server"
-                          await signOut("google")
-                        }}
-                      >
-                        <button
-                          type="submit"
-                          className="w-full px-4 py-2 text-sm text-gray-700 bg-gray-300 hover:bg-gray-700 hover:text-white"
-                        >
-                          Sign out
-                        </button>
-                      </form>
-                    </MenuItem>
+                      <SignOut />
                   </MenuItems>
                 </>
               ) : (

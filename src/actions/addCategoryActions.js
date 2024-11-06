@@ -46,22 +46,43 @@ export const fetchCategories = async () => {
     return response.json();
   };
   
-  export const updateCategory = async (category) => {
-    const response = await fetch(`/api/categories`, {
+  // export const updateCategory = async (category) => {
+  //   const response = await fetch(`/api/categories`, {
+  //     method: 'PUT',
+  //     headers: {
+  //       'Content-Type': 'application/json',
+  //     },
+  //     body: JSON.stringify(category),
+  //   });
+  
+  //   if (!response.ok) {
+  //     const errorData = await response.json();
+  //     throw new Error(errorData.msg || 'Error updating category');
+  //   }
+  
+  //   return response.json();
+  // };
+
+
+  // actions/addCategoryActions.js
+
+export const updateCategory = async (category) => {
+  try {
+    const res = await fetch(`/api/categories/${category._id}`, {
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify(category),
     });
-  
-    if (!response.ok) {
-      const errorData = await response.json();
-      throw new Error(errorData.msg || 'Error updating category');
-    }
-  
-    return response.json();
-  };
+    if (!res.ok) throw new Error('Failed to update category');
+    return await res.json();  // Return updated category data
+  } catch (error) {
+    console.error(error);
+    throw error;
+  }
+};
+
   
   export const deleteCategory = async (id) => {
     const response = await fetch(`/api/categories`, {

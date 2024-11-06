@@ -28,14 +28,13 @@
 // }
 
 
-import { NextResponse } from 'next/server';
 import { connectDB } from '@/lib/db/connectDB';
 import AddProduct from '@/lib/models/AddProduct';
 
 export async function GET() {
   await connectDB();
-  const products = await AddProduct.find({});
-  return NextResponse.json(products);
+  const products = await AddProduct.find().populate('category');
+  return Response.json(products);
 }
 
 export async function POST(request) {
@@ -43,7 +42,7 @@ export async function POST(request) {
   const newProductData = await request.json();
   const newProduct = new AddProduct(newProductData);
   await newProduct.save();
-  return NextResponse.json(newProduct, { status: 201 });
+  return Response.json(newProduct, { status: 201 });
 }
 
 export async function PUT(request) {
@@ -53,9 +52,9 @@ export async function PUT(request) {
     new: true,
   });
   if (!updatedProduct) {
-    return NextResponse.json({ message: 'Product not found' }, { status: 404 });
+    return Response.json({ message: 'Product not found' }, { status: 404 });
   }
-  return NextResponse.json(updatedProduct);
+  return Response.json(updatedProduct);
 }
 
 export async function DELETE(request) {
@@ -65,8 +64,8 @@ export async function DELETE(request) {
   
   const deletedProduct = await AddProduct.findByIdAndDelete(id);
   if (!deletedProduct) {
-    return NextResponse.json({ message: 'Product not found' }, { status: 404 });
+    return Response.json({ message: 'Product not found' }, { status: 404 });
   }
   
-  return NextResponse.json({ message: 'Product deleted' });
+  return Response.json({ message: 'Product deleted' });
 }
