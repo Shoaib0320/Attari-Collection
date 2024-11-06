@@ -176,7 +176,7 @@
 
 
 
-
+"use server"
 
 import { signOut } from '@/app/auth';
 import { Disclosure, DisclosureButton, DisclosurePanel, Menu, MenuButton, MenuItem, MenuItems } from '@headlessui/react'

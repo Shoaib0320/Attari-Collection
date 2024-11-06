@@ -4,7 +4,9 @@ import { redirect } from "next/navigation";
 
  
 export default async function SignIn() {
-  // const session = await auth();
+  const session = await auth();
+  console.log(session);
+  
   // if(session) redirect('/')
   return (
     <form
