@@ -22,7 +22,7 @@
 // actions/categoryActions.js
 
 export const fetchCategories = async () => {
-    const response = await fetch('/api/categories' , { cache: "no-store" });
+    const response = await fetch('/api/categories');
     if (!response.ok) {
       throw new Error('Error fetching categories');
     }
@@ -45,24 +45,7 @@ export const fetchCategories = async () => {
   
     return response.json();
   };
-  
-  // export const updateCategory = async (category) => {
-  //   const response = await fetch(`/api/categories`, {
-  //     method: 'PUT',
-  //     headers: {
-  //       'Content-Type': 'application/json',
-  //     },
-  //     body: JSON.stringify(category),
-  //   });
-  
-  //   if (!response.ok) {
-  //     const errorData = await response.json();
-  //     throw new Error(errorData.msg || 'Error updating category');
-  //   }
-  
-  //   return response.json();
-  // };
-
+ 
 
   // actions/addCategoryActions.js
 

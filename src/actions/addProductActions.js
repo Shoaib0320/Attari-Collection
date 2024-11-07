@@ -6,7 +6,6 @@
       return response.json();
     }
 
-  
   export async function addProduct(product) {
     const response = await fetch("/api/products", {
       method: "POST",
