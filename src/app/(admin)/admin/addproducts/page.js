@@ -129,18 +129,6 @@ const AddProductsPage = () => {
     }
   };
 
-  // const handleEdit = (product) => {
-  //   setEditingProduct(product);
-  //   setFormData({
-  //     title: product.title,
-  //     description: product.description,
-  //     category: product?.category?.title,
-  //     price: product.price,
-  //     imageUrl: product.imageUrl,
-  //   });
-  //   setProductDialogOpen(true);
-  // };
-
   const handleEdit = (product) => {
     setEditingProduct(product);
     setFormData({

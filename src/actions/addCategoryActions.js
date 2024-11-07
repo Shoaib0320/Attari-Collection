@@ -22,7 +22,7 @@
 // actions/categoryActions.js
 
 export const fetchCategories = async () => {
-    const response = await fetch('/api/categories');
+    const response = await fetch('/api/categories' , { cache: "no-store" });
     if (!response.ok) {
       throw new Error('Error fetching categories');
     }
