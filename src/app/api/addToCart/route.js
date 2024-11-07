@@ -200,7 +200,7 @@
 
 // app/api/cart/add-to-cart/route.js
 import { connectDB } from "@/lib/db/connectDB";
-import { CartModal } from "@/lib/models/Cart"; // Assuming Cart model is set up
+import { CartModal } from "@/lib/models/AddToCart"; // Assuming Cart model is set up
 import { auth } from "@/app/auth"; // This will help access session (user info)
 
 export async function POST(req) {
