@@ -1,6 +1,5 @@
 // "use client"
 
-import { auth } from "@/app/auth";
 import { connectDB } from "@/lib/db/connectDB";
 import {
   Table,

@@ -248,34 +248,35 @@
 
 
 // src/pages/api/cart.js
-
+// pages/api/cart.js
 import { connectDB } from "@/lib/db/connectDB";
-import { CartModal } from "@/lib/models/AddToCart";
+import { CartModel } from "@/lib/models/Cart"; // Cart model for MongoDB
 
 export default async function handler(req, res) {
-  await connectDB(); // Ensure the database is connected
-
   if (req.method === "POST") {
-    try {
-      const { user, product, quantity } = req.body;
+    const { userId, productId, title, imageUrl, price, quantity } = req.body;
 
-      // Create new cart item
-      const cartItem = new CartModal({
-        userId: user._id,
-        productId: product._id,
-        title: product.title,
-        price: product.price,
+    try {
+      await connectDB(); // Ensure MongoDB connection
+
+      // Create or update the cart for the user
+      const cartItem = new CartModel({
+        userId,
+        productId,
+        title,
+        imageUrl,
+        price,
         quantity,
-        totalPrice: product.price * quantity,
       });
 
-      await cartItem.save(); // Save cart item to database
-      res.status(200).json({ message: "Added to cart successfully" });
+      // Save the cart item
+      await cartItem.save();
+
+      return res.status(200).json({ message: "Item added to cart successfully!" });
     } catch (error) {
-      console.error("Error adding to cart:", error);
-      res.status(500).json({ error: "Failed to add item to cart" });
+      return res.status(500).json({ error: "Failed to add item to cart" });
     }
   } else {
-    res.status(405).json({ error: "Method not allowed" });
+    return res.status(405).json({ error: "Method Not Allowed" });
   }
 }
