@@ -250,7 +250,7 @@
 // src/pages/api/cart.js
 // pages/api/cart.js
 import { connectDB } from "@/lib/db/connectDB";
-import { CartModel } from "@/lib/models/Cart"; // Cart model for MongoDB
+import { CartModel } from "@/lib/models/AddToCart"; // Cart model for MongoDB
 
 export default async function handler(req, res) {
   if (req.method === "POST") {
