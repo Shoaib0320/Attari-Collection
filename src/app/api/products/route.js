@@ -81,16 +81,41 @@
 import { connectDB } from '@/lib/db/connectDB';
 import AddProduct from '@/lib/models/AddProduct';
 
+// export async function GET() {
+//   try {
+//     await connectDB();
+//     const products = await AddProduct.find().populate('category')
+//     // .populate('category') // Replace 'category' with the field name you're populating
+//     // .exec((err, products) => {
+//     //     if (err) {
+//     //         console.error('Error populating categories:', err);
+//     //     } else {
+//     //         console.log(products);
+//     //     });
+//     return Response.json(products);
+//   } catch (error) {
+//     console.error("Database error:", error);
+//     return Response.json({ message: "Failed to fetch products" }, { status: 500 });
+//   }
+// }
+
 export async function GET() {
   try {
     await connectDB();
+
+    // Check if there are any products
     const products = await AddProduct.find().populate('category');
+    if (!products || products.length === 0) {
+      return Response.json({ message: "No products found" });
+    }
+
     return Response.json(products);
   } catch (error) {
     console.error("Database error:", error);
     return Response.json({ message: "Failed to fetch products" }, { status: 500 });
   }
 }
+
 
 
 export async function POST(request) {

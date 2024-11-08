@@ -1,19 +1,32 @@
 import { connectDB } from "@/lib/db/connectDB";
-import { UserModal } from "@/lib/models/User";
+import { UserModel } from "@/lib/models/User";
 import NextAuth from "next-auth";
 import Google from "next-auth/providers/google";
 
+// async function handleLogin(obj) {
+//   await connectDB();
+//   const user = await UserModal.findOne({ email: obj.email });
+//   if (user) {
+//     return user;
+//   } else {
+//     let newUser = await UserModel(obj);
+//     newUser = await newUser.save();
+//     return newUser;
+//   }
+// }
+
 async function handleLogin(obj) {
   await connectDB();
-  const user = await UserModal.findOne({ email: obj.email });
+  const user = await UserModel.findOne({ email: obj.email }); // corrected UserModal to UserModel
   if (user) {
     return user;
   } else {
-    let newUser = await UserModal(obj);
+    let newUser = new UserModel(obj); // Correcting the way of instantiation
     newUser = await newUser.save();
     return newUser;
   }
 }
+
 
 export const { handlers, signIn, signOut, auth } = NextAuth({
   providers: [Google],
@@ -39,6 +52,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
     session({ session, token }) {
       session.user._id = token._id;
       session.user.role = token.role;
+      console.log("session", session)
       return session;
     },
   },

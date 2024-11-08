@@ -1,23 +1,5 @@
 // // actions/addCategory.js
 
-// export const addCategory = async (category) => {
-//     const response = await fetch('/api/categories', {
-//       method: category._id ? 'PUT' : 'POST', // PUT if _id exists, else POST
-//       headers: {
-//         'Content-Type': 'application/json',
-//       },
-//       body: JSON.stringify(category),
-//     });
-  
-//     if (!response.ok) {
-//       const errorData = await response.json();
-//       throw new Error(errorData.msg || 'Error occurred while adding/updating category');
-//     }
-  
-//     return response.json();
-//   };
-  
-
 
 // actions/categoryActions.js
 
