@@ -1,9 +1,9 @@
 import { connectDB } from "@/lib/db/connectDB";
-import { UserModal } from "@/lib/models/User";
+import { UserModel } from "@/lib/models/User";
 
 export async function GET(request) {
   await connectDB();
-  const users = await UserModal.find();
+  const users = await UserModel.find();
   return Response.json(
     {
       msg: "Users Fetched Successfully",
@@ -16,7 +16,7 @@ export async function GET(request) {
 export async function POST(request) {
   await connectDB();
   const obj = await request.json();
-  let newUser = new UserModal(obj);
+  let newUser = new UserModel(obj);
   await newUser.save();
 
   return Response.json(
