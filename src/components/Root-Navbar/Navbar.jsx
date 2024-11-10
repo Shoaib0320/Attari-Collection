@@ -178,12 +178,10 @@
 
 // "use server"
 
-import { signOut } from '@/app/auth';
 import { Disclosure, DisclosureButton, DisclosurePanel, Menu, MenuButton, MenuItem, MenuItems } from '@headlessui/react'
 import { Bars3Icon, ShoppingCartIcon, XMarkIcon } from '@heroicons/react/24/outline'
 import Image from 'next/image';
 import Link from 'next/link';
-import { Button } from '../ui/button';
 import SignOut from '../SignOut/Signout';
 
 const navigation = [
