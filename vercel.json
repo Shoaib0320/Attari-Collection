@@ -4,7 +4,7 @@
           "maxDuration": 30,          
           "memory": 1024              
         },
-        "api/products/route.js": {
+        "src/app/api/products/route.js": {
             "maxDuration": 30
           }
     }
