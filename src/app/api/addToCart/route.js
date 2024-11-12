@@ -313,51 +313,6 @@
 import { connectDB } from '@/lib/db/connectDB';
 import CartModal from '@/lib/models/AddToCart';
 
-// import { UserModal } from "@/lib/models/UserModal";
-
-// export async function POST(req) {
-//   await connectDB();
-//   try {
-//     const obj = await req.json();
-
-//     // const isUserRequestedBefore = await RequestModal.findOne({
-//     //   user: obj.user,
-//     // });
-//     // console.log("isUserRequestedBefore=>", isUserRequestedBefore);
-//     // if (isUserRequestedBefore) {
-//     //   return Response.json(
-//     //     {
-//     //       error: true,
-//     //       msg: "You had already applied as a doctor",
-//     //     },
-//     //     { status: 403 }
-//     //   );
-//     // }
-
-
-
-//     let newCart = await new CartModal({ ...obj });
-//     newCart = await newCart.save();
-
-//     return Response.json(
-//       {
-//         error: false,
-//         msg: "Request Registered Successfully",
-//         request: newCart,
-//       },
-//       { status: 201 }
-//     );
-//   } catch (e) {
-//     return Response.json(
-//       {
-//         error: true,
-//         msg: "Something went wrong",
-//       },
-//       { status: 400 }
-//     );
-//   }
-// }
-
 export async function POST(req) {
   await connectDB();
   try {
@@ -387,8 +342,8 @@ export async function POST(req) {
       },
       { status: 201 }
     );
-  } catch (e) {
-    console.error("Error in addToCart API:", e); // Log the error for further debugging
+  } catch (error) {
+    console.error("Error in addToCart API:", error); // Log the error for further debugging
     return Response.json(
       {
         error: true,

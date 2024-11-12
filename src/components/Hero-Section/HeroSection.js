@@ -23,7 +23,7 @@ export default function HeroSection() {
               alt="hero"
               height={300}
               width={400}
-              src="https://www.dressyzone.com/cdn/shop/files/p15195-embroidered-net-dress_580x.jpg?v=1719991651"
+              src="https://i.pinimg.com/236x/03/c0/53/03c0532668f34d60af2517f87a283ecc.jpg"
             />
           </div>
         </div>

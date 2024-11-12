@@ -1,5 +1,3 @@
-//@/components/CategoryChips/CategoryChips.js
-
 // @/components/CategoryChips/CategoryChips.js
 
 import { Button } from "@/components/ui/button";
@@ -13,7 +11,7 @@ const CategoryChips = ({ categories, onCategoryClick }) => {
   return (
     <div className="flex flex-wrap gap-2">
       {categories.map((category) => (
-        <Button className="inline-block text-normal bg-gray-200 text-gray-700 px-2 py-1 border-gray-200 mb-2 hover:bg-gray-300"
+        <Button className="inline-block text-normal bg-gray-200 text-gray-700 px-3 py-1 border-gray-200 mb-2 hover:bg-gray-300"
           key={category._id}
           onClick={() => onCategoryClick(category)}
         >
