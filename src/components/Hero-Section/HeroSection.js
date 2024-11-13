@@ -1,6 +1,4 @@
 import SignIn from "../Sign-in/Sign-in";
-// import { handleGoogleSignIn } from "../../app/actions/signInActions";
-// import SignIn from "../Sign-in/Sign-in";
 
 export default function HeroSection() {
     return (

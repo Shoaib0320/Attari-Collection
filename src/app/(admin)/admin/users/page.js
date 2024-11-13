@@ -10,7 +10,7 @@ export default async function UsersPage() {
     await connectDB();
 
     // Attempt to fetch users with a 20-second timeout
-    const users = await UserModel.find().lean().maxTimeMS(20000); // Timeout set to 20 seconds
+    const users = await UserModel.find().lean(); // Timeout set to 20 seconds
 
     return (
       <div className="min-h-screen mx-10">

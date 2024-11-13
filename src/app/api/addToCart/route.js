@@ -308,94 +308,111 @@
 // }
 
 
-// // // // app/api/add-to-cart/route.js
+// // // // app/api/addToCart/route.js
 
 import { connectDB } from '@/lib/db/connectDB';
 import CartModal from '@/lib/models/AddToCart';
 
-export async function POST(req) {
-  await connectDB();
-  try {
-    const obj = await req.json();
-    console.log("Received Data in API:", obj); // Log the data received in the request
+export default async function handler(req, res) {
+  if (req.method === 'POST') {
+    try {
+      // Connect to database
+      await dbConnect();
 
-    // Validate required fields
-    if (!obj.productId || !obj.quantity || !obj.user) {
-      return Response.json(
-        {
-          error: true,
-          msg: "Required fields are missing",
-        },
-        { status: 400 }
-      );
+      // Extract data from the request body
+      const { itemId, quantity, userId } = req.body;
+
+      // Validate request body
+      if (!itemId || !quantity || !userId) {
+        return res.status(400).json({ error: 'Missing required fields' });
+      }
+
+      // Create new cart item
+      const newCartItem = new Cart({
+        itemId,
+        quantity,
+        userId,
+      });
+
+      // Save to MongoDB
+      const savedCartItem = await newCartItem.save();
+      res.status(200).json({ success: true, data: savedCartItem });
+
+    } catch (error) {
+      console.error('Error in addCarts:', error);
+      res.status(500).json({ error: 'Failed to add item to cart' });
     }
-
-    // Save new cart entry
-    let newCart = new CartModal({ ...obj });
-    newCart = await newCart.save();
-
-    return Response.json(
-      {
-        error: false,
-        msg: "Request Registered Successfully",
-        request: newCart,
-      },
-      { status: 201 }
-    );
-  } catch (error) {
-    console.error("Error in addToCart API:", error); // Log the error for further debugging
-    return Response.json(
-      {
-        error: true,
-        msg: "Something went wrong",
-      },
-      { status: 400 }
-    );
+  } else {
+    res.setHeader('Allow', ['POST']);
+    res.status(405).end(`Method ${req.method} Not Allowed`);
   }
 }
 
 export async function GET(req) {
-  await connectDB();
-  const carts = await CartModal.find().populate("user");
-  return Response.json(
-    {
-      error: false,
-      msg: "Requests fetched Successfully",
-      carts,
-    },
-    { status: 200 }
-  );
+    await connectDB();
+    const carts = await CartModal.find().populate("user");
+    return Response.json(
+        {
+            error: false,
+            msg: "Requests fetched Successfully",
+            carts,
+        },
+        { status: 200 }
+    );
 }
 
 export async function PUT(req) {
-  await connectDB();
-  try {
-    const obj = await req.json();
-    let { id, status } = obj;
-    const updated = await CartModal.findOneAndUpdate(
-      {
-        _id: id,
-      },
-      { status: status }
-    ).exec();
+    await connectDB();
+    try {
+        const obj = await req.json();
+        let { id, status } = obj;
+        const updated = await CartModal.findOneAndUpdate(
+            {
+                _id: id,
+            },
+            { status: status }
+        ).exec();
 
-    return Response.json(
-      {
-        error: false,
-        msg: "Requests updated Successfully",
-        cart: updated,
-      },
-      { status: 200 }
-    );
-  } catch (err) {
-    return Response.json(
-      {
-        error: false,
-        msg: "Something went wrong",
-      },
-      { status: 500 }
-    );
-  }
+        return Response.json(
+            {
+                error: false,
+                msg: "Requests updated Successfully",
+                cart: updated,
+            },
+            { status: 200 }
+        );
+    } catch (err) {
+        return Response.json(
+            {
+                error: true,
+                msg: "Something went wrong",
+            },
+            { status: 500 }
+        );
+    }
 }
 
-export async function DELETE(req) {}
+export async function DELETE(req) {
+    await connectDB();
+    try {
+        const { id } = await req.json();
+        const deletedCart = await CartModal.findByIdAndDelete(id);
+        
+        return Response.json(
+            {
+                error: false,
+                msg: "Cart item deleted successfully",
+                cart: deletedCart,
+            },
+            { status: 200 }
+        );
+    } catch (error) {
+        return Response.json(
+            {
+                error: true,
+                msg: "Failed to delete cart item",
+            },
+            { status: 500 }
+        );
+    }
+}

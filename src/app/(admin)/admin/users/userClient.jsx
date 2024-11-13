@@ -33,7 +33,7 @@ const columns = [
     header: "Profile Image",
     cell: (info) => (
       <Image
-        src={info.getValue() || "/placeholder-user.jpg"}
+        src={info.getValue() || "https://t4.ftcdn.net/jpg/07/17/84/71/360_F_717847111_5dqQRbCOnSKiALUJzWHkjozKZAEQdVsf.jpg"}
         alt="User Profile"
         height={40}
         width={40}
