@@ -151,6 +151,7 @@
 "use client";
 
 import Navbar from '@/components/Root-Navbar/Navbar';
+import Image from 'next/image';
 import { useEffect, useState } from 'react';
 
 export default function CartPage() {
@@ -232,7 +233,7 @@ export default function CartPage() {
                                     {cartItems.map(item => (
                                         <tr key={item._id} className="border-b hover:bg-gray-50 transition-colors">
                                             <td className="py-4 px-4 flex items-center">
-                                                <img src={item.imageUrl} alt={item.title} className="w-20 h-20 object-cover rounded mr-4" />
+                                                <Image src={item.imageUrl} alt={item.title} className="w-20 h-20 object-cover rounded mr-4" />
                                                 <div>
                                                     <h2 className="font-bold text-lg">{item.title}</h2>
                                                     <p className="text-gray-500">{item.category}</p>
