@@ -515,6 +515,7 @@ import { Button } from "@/components/ui/button";
 import { useSession } from "next-auth/react";
 import { toast } from "react-hot-toast";
 import { addCarts } from "@/actions/addToCartAction";
+import Image from "next/image";
 
 export default function ProductDetail({ params }) {
   const { id } = params;
