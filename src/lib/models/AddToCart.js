@@ -69,9 +69,9 @@ const CartSchema = new mongoose.Schema({
   quantity: { type: Number, required: true, default: 1 },
   imageUrl: { type: String },
   category: { type: String },
-  user: { type: mongoose.Schema.Types.ObjectId, ref: 'users', required: true },
+  user: { type: mongoose.Schema.Types.ObjectId, ref: 'user', required: true },
   addedAt: { type: Date, default: Date.now },
 });
 
-const CartModal = mongoose.models.Cart || mongoose.model('Carts', CartSchema);
+const CartModal = mongoose.models.Carts || mongoose.model('Carts', CartSchema);
 export default CartModal;

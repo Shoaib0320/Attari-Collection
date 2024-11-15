@@ -349,16 +349,101 @@
 //   }
 // }
 
-import { connectDB } from '@/lib/db/connectDB';
-import CartModal from '@/lib/models/AddToCart';
 
-export async function POST(req) {
+// @/app/api/cart/route.js
+
+// app/api/addToCart/route.js
+
+import { NextResponse } from 'next/server';
+import CartModel from '@/lib/models/AddToCart';
+import { auth } from '@/app/auth';
+import { connectDB } from '@/lib/db/connectDB';
+
+export async function POST(request) {
+  await connectDB();
+
+  const session = await auth();
+  if (!session) {
+    return NextResponse.json({ success: false, message: "User not authenticated" }, { status: 401 });
+  }
+
   try {
-    const { productId, quantity, userId } = await req.json();
-    const result = await addToCart(productId, quantity, userId);
-    return new Response(JSON.stringify(result), { status: 200 });
+    const body = await request.json();
+    const { productId, title, description, price, quantity, imageUrl, category } = body;
+    const userId = session.user._id;
+
+    const cartItem = await CartModel.create({
+      productId,
+      title,
+      description,
+      price,
+      quantity,
+      imageUrl,
+      category,
+      user: userId,
+    });
+
+    return NextResponse.json({ success: true, data: cartItem }, { status: 201 });
   } catch (error) {
-    console.error('Error adding to cart:', error);
-    return new Response('Failed to add to cart', { status: 500 });
+    return NextResponse.json({ success: false, message: error.message }, { status: 500 });
+  }
+}
+
+
+// For GET request to fetch cart items for logged-in user
+export async function GET(request) {
+  await connectDB();
+
+  const session = await auth(); // Get user session via the auth() function
+  if (!session) {
+    return NextResponse.json({ success: false, message: "User not authenticated" }, { status: 401 });
+  }
+
+  try {
+    const userId = session.user._id;
+    const cartItems = await CartModel.find({ user: userId }); // Get cart items by the user's ID
+    
+    return NextResponse.json({ success: true, data: cartItems });
+  } catch (error) {
+    return NextResponse.json({ success: false, message: error.message }, { status: 500 });
+  }
+}
+
+
+export default async function handler(req, res) {
+  const session = await auth({ req });
+  if (!session) {
+    return res.status(401).json({ success: false, message: 'Unauthorized' });
+  }
+
+  if (req.method === 'DELETE') {
+    try {
+      const { cartItemId } = req.body;
+
+      if (!cartItemId) {
+        return res.status(400).json({ success: false, message: 'Cart item ID is required' });
+      }
+
+      // Connect to the database
+      await connectDB();
+
+      // Find the user's cart and remove the item by cartItemId
+      const updatedCart = await Cart.findOneAndUpdate(
+        { userId: session.user.id },
+        { $pull: { cartItems: { _id: cartItemId } } },
+        { new: true }  // Return the updated cart
+      );
+
+      if (!updatedCart) {
+        return res.status(404).json({ success: false, message: 'Cart not found or item not found' });
+      }
+
+      return res.status(200).json({ success: true, message: 'Item deleted successfully' });
+    } catch (error) {
+      console.error(error);
+      return res.status(500).json({ success: false, message: error.message });
+    }
+  } else {
+    return res.status(405).json({ success: false, message: 'Method Not Allowed' });
   }
 }

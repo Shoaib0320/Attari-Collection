@@ -80,6 +80,7 @@
 
 import { connectDB } from '@/lib/db/connectDB';
 import AddProduct from '@/lib/models/AddProduct';
+import { CategoryModal } from '@/lib/models/Category';
 
 // export async function GET() {
 //   try {
