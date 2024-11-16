@@ -220,7 +220,8 @@ const orderSchema = new Schema({
   ],
   number: { type: String, required: true },
   address: { type: String, required: true },
-});
+  date: String,
+}, { timestamps: true });
 
 export const OrdersModel =
   mongoose.models.Orders || mongoose.model('Orders', orderSchema);

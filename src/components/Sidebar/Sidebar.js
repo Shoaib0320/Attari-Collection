@@ -74,7 +74,7 @@ export function AppSidebar() {
                     </Link> */}
 
                     <Link
-                        href="/admin/dashboard"
+                        href="/admin"
                         className="flex items-center p-3 rounded bg-gray-800 text-white hover:bg-gray-300 hover:text-black transition w-full sm:w-auto"
                         >
                         <HomeIcon className="w-6 h-6 mr-3" /> {/* Dashboard icon */}

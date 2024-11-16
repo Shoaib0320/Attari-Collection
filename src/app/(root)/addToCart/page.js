@@ -20,7 +20,6 @@ export default async function AddToCartPage() {
   
   return (
     <>
-      <Navbar session={session}/>
       <CartPage userId={session.user._id} />
     </>
   )

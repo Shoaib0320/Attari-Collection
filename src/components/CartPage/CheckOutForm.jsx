@@ -429,12 +429,14 @@ export default function CheckoutForm({ userId, cartItems }) {
       user: userId,
       number: phoneNumber,
       address,
+      date: Date.now(),
       items: cartItems.map((item) => ({
         productId: item._id,
         quantity: item.quantity,
         price: item.price,
         title: item.title,
         category: item.category,
+        image: item.imageUrl,
       })),
     };
 

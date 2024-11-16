@@ -1,5 +1,6 @@
 //app/api/orders/route.js
 
+import { auth } from "@/app/auth";
 import { connectDB } from "@/lib/db/connectDB";
 import AddProduct from "@/lib/models/AddProduct";
 import { OrdersModel } from "@/lib/models/OrdersModal";
@@ -32,71 +33,6 @@ export async function POST(req) {
   }
 }
 
-
-
-
-// export async function POST(req) {
-//   await connectDB();
-//   try {
-//     const obj = await req.json();
-
-//     // const isUserRequestedBefore = await OrdersModal.findOne({
-//     //   user: obj.user,
-//     // });
-//     // console.log("isUserRequestedBefore=>", isUserRequestedBefore);
-//     // if (isUserRequestedBefore) {
-//     //   return Response.json(
-//     //     {
-//     //       error: true,
-//     //       msg: "You had already applied as a doctor",
-//     //     },
-//     //     { status: 403 }
-//     //   );
-//     // }
-
-//     let newOrder = await new OrdersModel({ ...obj });
-//     newOrder = await newOrder.save();
-
-//     return Response.json(
-//       {
-//         error: false,
-//         msg: "Order Added Successfully",
-//         order: newOrder,
-//       },
-//       { status: 201 }
-//     );
-//   } catch (e) {
-//     return Response.json(
-//       {
-//         error: true,
-//         msg: "Something went wrong",
-//       },
-//       { status: 400 }
-//     );
-//   }
-// }
-
-
-// export async function GET(req) {
-//   await connectDB();
-// //   console.log(req);
-// //   const query = {};
-// //   const status = req?.nextUrl?.searchParams?.get("status");
-// //   if (status && status != "all") {
-// //     query.status = status;
-// //   }
-
-//   const orders = await OrdersModal.find(query).populate("user");
-//   return Response.json(
-//     {
-//       error: false,
-//       msg: "Orders fetched Successfully",
-//       orders,
-//     },
-//     { status: 200 }
-//   );
-// }
-
 export async function GET(req) {
     await connectDB();
   
@@ -111,38 +47,49 @@ export async function GET(req) {
     );
   }
 
+
+
 export async function PUT(req) {
   await connectDB();
   try {
-    const obj = await req.json();
-    let { id, status } = obj;
-    const order = await OrdersModal.findOne({ _id: id });
+    const { id, status } = await req.json();
 
-    await UserModel.findOneAndUpdate({ _id: order.user }, { role: "deliverd" });
-    const updated = await OrdersModal.findOneAndUpdate(
-      {
-        _id: id,
-      },
-      { status: status }
-    ).exec();
+    // Update the order's status
+    const updatedOrder = await OrdersModel.findOneAndUpdate(
+      { _id: id },
+      { status },
+      { new: true }
+    );
+
+    if (!updatedOrder) {
+      return Response.json(
+        {
+          error: true,
+          msg: "Order not found or could not be updated.",
+        },
+        { status: 404 }
+      );
+    }
 
     return Response.json(
       {
         error: false,
-        msg: "orders updated Successfully",
-        order: updated,
+        msg: "Order updated successfully.",
+        order: updatedOrder,
       },
       { status: 200 }
     );
   } catch (err) {
+    console.error("Error updating order:", err);
     return Response.json(
       {
-        error: false,
-        msg: "Something went wrong",
+        error: true,
+        msg: "Something went wrong.",
       },
       { status: 500 }
     );
   }
 }
+
 
 export async function DELETE(req) {}
