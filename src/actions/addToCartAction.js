@@ -40,14 +40,33 @@ export async function getCarts(userId) {
 
 
 
-export async function deleteCarts(cartItemId) {
+// export async function deleteCarts(cartItemId) {
+//   try {
+//     const response = await fetch(`/api/addToCart`, {
+//       method: 'DELETE',
+//       headers: {
+//         'Content-Type': 'application/json',
+//       },
+//       body: JSON.stringify({ cartItemId }),  // Passing the cart item ID to delete
+//     });
+//     const data = await response.json();
+//     return data;
+//   } catch (error) {
+//     return { success: false, message: error.message };
+//   }
+// }
+
+
+// @/actions/addToCartAction.js
+
+export async function deleteCarts(itemId) {
   try {
-    const response = await fetch(`/api/addToCart`, {
+    const response = await fetch('/api/addToCart', {
       method: 'DELETE',
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({ cartItemId }),  // Passing the cart item ID to delete
+      body: JSON.stringify({ itemId }),
     });
     const data = await response.json();
     return data;

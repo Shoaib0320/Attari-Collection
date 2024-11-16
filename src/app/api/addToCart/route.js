@@ -409,41 +409,66 @@ export async function GET(request) {
   }
 }
 
+// export default async function handler(req, res) {
+//   if (req.method === 'DELETE') {
+//     const { itemId } = req.query;
 
-export default async function handler(req, res) {
-  const session = await auth({ req });
-  if (!session) {
-    return res.status(401).json({ success: false, message: 'Unauthorized' });
-  }
+//     try {
+//       // Connect to the database
+//       await connectDB();
 
-  if (req.method === 'DELETE') {
-    try {
-      const { cartItemId } = req.body;
+//       // Find and delete the item
+//       const deletedItem = await Cart.findByIdAndDelete(itemId);
 
-      if (!cartItemId) {
-        return res.status(400).json({ success: false, message: 'Cart item ID is required' });
-      }
+//       if (!deletedItem) {
+//         return res.status(404).json({ success: false, message: 'Item not found' });
+//       }
 
-      // Connect to the database
-      await connectDB();
+//       res.status(200).json({ success: true, message: 'Item deleted successfully' });
+//     } catch (error) {
+//       console.error(error);
+//       res.status(500).json({ success: false, message: 'Server error' });
+//     }
+//   } else {
+//     res.setHeader('Allow', ['DELETE']);
+//     res.status(405).json({ success: false, message: `Method ${req.method} not allowed` });
+//   }
+// }
 
-      // Find the user's cart and remove the item by cartItemId
-      const updatedCart = await Cart.findOneAndUpdate(
-        { userId: session.user.id },
-        { $pull: { cartItems: { _id: cartItemId } } },
-        { new: true }  // Return the updated cart
-      );
+// export default async function handler(req, res) {
+//   const session = await auth({ req });
+//   if (!session) {
+//     return res.status(401).json({ success: false, message: 'Unauthorized' });
+//   }
 
-      if (!updatedCart) {
-        return res.status(404).json({ success: false, message: 'Cart not found or item not found' });
-      }
+//   if (req.method === 'DELETE') {
+//     try {
+//       const { cartItemId } = req.body;
 
-      return res.status(200).json({ success: true, message: 'Item deleted successfully' });
-    } catch (error) {
-      console.error(error);
-      return res.status(500).json({ success: false, message: error.message });
-    }
-  } else {
-    return res.status(405).json({ success: false, message: 'Method Not Allowed' });
-  }
-}
+//       if (!cartItemId) {
+//         return res.status(400).json({ success: false, message: 'Cart item ID is required' });
+//       }
+
+//       // Connect to the database
+//       await connectDB();
+
+//       // Find the user's cart and remove the item by cartItemId
+//       const updatedCart = await Cart.findOneAndUpdate(
+//         { userId: session.user.id },
+//         { $pull: { cartItems: { _id: cartItemId } } },
+//         { new: true }  // Return the updated cart
+//       );
+
+//       if (!updatedCart) {
+//         return res.status(404).json({ success: false, message: 'Cart not found or item not found' });
+//       }
+
+//       return res.status(200).json({ success: true, message: 'Item deleted successfully' });
+//     } catch (error) {
+//       console.error(error);
+//       return res.status(500).json({ success: false, message: error.message });
+//     }
+//   } else {
+//     return res.status(405).json({ success: false, message: 'Method Not Allowed' });
+//   }
+// }

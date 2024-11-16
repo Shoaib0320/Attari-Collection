@@ -16,6 +16,8 @@ export default async function AddToCartPage() {
     )
   }
 
+  console.log("session=> AddTocart", session);
+  
   return (
     <>
       <Navbar session={session}/>
