@@ -3,8 +3,8 @@ import AnalyticsChart from "@/components/BarChart/BarChart";
 import { redirect } from "next/navigation";
 
 export default async function Admin() {
-  // const session = await auth();
-  // if (!session && session?.user?.role != "admin") redirect("/");
+  const session = await auth();
+  if (!session && session?.user?.role != "admin") redirect("/");
 
   return (
     <div className="min-h-screen">

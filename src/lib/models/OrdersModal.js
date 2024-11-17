@@ -146,7 +146,7 @@
 //           price: Number,
 //           quantity: Number,
 //         },],
-    
+
 // //   products: [{
 // //     productId: {
 // //       type: mongoose.Schema.Types.ObjectId,
@@ -216,6 +216,7 @@ const orderSchema = new Schema({
       price: { type: Number, required: true },
       title: { type: String, required: true },
       category: { type: String, required: true },
+      imageUrl: { type: String }, // assuming each product has an image URL
     },
   ],
   number: { type: String, required: true },

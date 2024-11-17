@@ -358,6 +358,7 @@ import { NextResponse } from 'next/server';
 import CartModel from '@/lib/models/AddToCart';
 import { auth } from '@/app/auth';
 import { connectDB } from '@/lib/db/connectDB';
+import CartModal from '@/lib/models/AddToCart';
 
 export async function POST(request) {
   await connectDB();
@@ -406,6 +407,40 @@ export async function GET(request) {
     return NextResponse.json({ success: true, data: cartItems });
   } catch (error) {
     return NextResponse.json({ success: false, message: error.message }, { status: 500 });
+  }
+}
+
+
+export default async function handler(req, res) {
+  const { method } = req;
+
+  // Connect to the database
+  await connectDB();
+
+  switch (method) {
+    case 'DELETE':
+      try {
+        const { itemId } = req.query; // Get itemId from the query string
+
+        if (!itemId) {
+          return res.status(400).json({ success: false, message: 'Item ID is required' });
+        }
+
+        // Find and delete the cart item by itemId
+        const deletedItem = await CartModal.findByIdAndDelete(itemId);
+
+        if (!deletedItem) {
+          return res.status(404).json({ success: false, message: 'Item not found' });
+        }
+
+        return res.status(200).json({ success: true, message: 'Item deleted successfully' });
+      } catch (error) {
+        console.error('Error deleting item:', error);
+        return res.status(500).json({ success: false, message: 'Internal server error' });
+      }
+
+    default:
+      return res.status(405).json({ success: false, message: 'Method Not Allowed' });
   }
 }
 

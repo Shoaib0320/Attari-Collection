@@ -8,7 +8,6 @@ export default async function AddToCartPage() {
   if (!session) {
     return (
       <>
-        <Navbar />
         <div className="mx-auto max-w-7xl px-4 my-10">
           <p className="text-center text-red-500 text-xl">Please log in to view your cart.</p>
         </div>
