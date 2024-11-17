@@ -196,7 +196,7 @@ export default function MyOrders({ userId }) {
                             </span>
                         </div>
                         <p className="text-gray-700 mt-2">
-                            <strong>Customer:</strong> {order.user.firstName} {order.user.lastName}
+                            <strong>Customer:</strong> {order.user.firstName} 
                         </p>
                         <p className="text-gray-700 mt-1">
                             <strong>Phone:</strong> {order.number}
