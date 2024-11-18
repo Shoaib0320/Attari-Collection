@@ -187,16 +187,20 @@ export default function MyOrders({ userId }) {
                                 <strong>Order ID:</strong> {order._id}
                             </p>
                             <span
-                                className={`text-sm px-4 py-1 rounded-full ${order.status === 'Completed'
+                                className={`text-sm px-4 py-1 rounded-full ${order.status === 'delivered'
                                         ? 'bg-green-100 text-green-700'
-                                        : 'bg-yellow-100 text-yellow-700'
+                                        : order.status === 'cancelled'
+                                            ? 'bg-red-400 text-white'
+                                            : order.status === 'pending'
+                                                ? 'bg-yellow-100 text-yellow-700'
+                                                : ''
                                     }`}
                             >
                                 {order.status}
                             </span>
                         </div>
                         <p className="text-gray-700 mt-2">
-                            <strong>Customer:</strong> {order.user.firstName} 
+                            <strong>Customer:</strong> {order.user.firstName} {order.user.lastName}
                         </p>
                         <p className="text-gray-700 mt-1">
                             <strong>Phone:</strong> {order.number}

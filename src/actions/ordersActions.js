@@ -15,36 +15,102 @@ export async function addOrders(orderData) {
 }
 
 
-// Fetch orders from the API
-export async function getOrders() {
-  const res = await fetch(`${process.env.BASE_URL}api/orders`)
-  const data = await res.json()
-  return data.orders
-}
-
-// export async function getUserOrders(userId) {
-//   const query = userId ? `?userId=${userId}` : "";
-//   const res = await fetch(`${process.env.BASE_URL}api/orders${query}`);
-//   const data = await res.json();
-//   return data.orders;
+// // Fetch orders from the API
+// export async function getOrders() {
+//   const res = await fetch(`${process.env.BASE_URL}api/orders`)
+//   const data = await res.json()
+//   return (data.orders)
+  
 // }
 
-export async function getUserOrders(userId) {
+// Fetch orders from the API
+export async function getOrders() {
   try {
-    const query = userId ? `?userId=${userId}` : "";
-    const res = await fetch(`${process.env.BASE_URL}api/orders${query}`);
+    const res = await fetch(`${process.env.BASE_URL}api/orders`);
 
     if (!res.ok) {
-      throw new Error("Failed to fetch user orders.");
+      throw new Error("Failed to fetch orders.");
     }
 
     const data = await res.json();
-    return data.orders || [];
+
+    return {
+      stats: {
+        delivered: data.stats.delivered || 0,
+        cancelled: data.stats.cancelled || 0,
+        pending: data.stats.pending || 0,
+      },
+      orders: data.orders || [], // Assuming data.orders is the list of orders
+    };
   } catch (error) {
-    console.error("Error fetching user orders:", error);
-    return [];
+    console.error("Error fetching orders:", error);
+    return {
+      stats: { delivered: 0, cancelled: 0, pending: 0 },
+      orders: [],
+    };
   }
 }
+
+
+export async function getUserOrders(userId) {
+  const query = userId ? `?userId=${userId}` : "";
+  const res = await fetch(`${process.env.BASE_URL}api/orders${query}`);
+  const data = await res.json();
+  return data.orders;
+}
+
+// export async function getUserOrders(userId , status) {
+//   try {
+//     const query = userId ? `?userId=${userId}` : "";
+//     const res = await fetch(`${process.env.BASE_URL}api/orders${query}`);
+
+//     const url =`${process.env.BASE_URL}api/orders?status=${status}`;
+
+
+//     if (!res.ok) {
+//       throw new Error("Failed to fetch user orders.");
+//     }
+
+//     const data = await res.json();
+//     return data.orders || [];
+//   } catch (error) {
+//     console.error("Error fetching user orders:", error);
+//     return [];
+//   }
+// }
+
+
+// export async function getUserOrders(userId, status) {
+//   try {
+//     // Construct query based on the parameters
+//     let query = `?userId=${userId}`;  // User-specific query
+//     if (status && status !== 'all') {  // Apply status filter if not 'all'
+//       query += `&status=${status}`;
+//     }
+
+//     // Construct URL based on the status filter
+//     const url = `${process.env.BASE_URL}api/orders${query}`;
+
+//     const res = await fetch(url); // Fetch orders based on the constructed URL
+
+//     if (!res.ok) {
+//       throw new Error("Failed to fetch user orders.");
+//     }
+
+//     const data = await res.json();
+//     return {
+//       stats: {
+//         delivered: data.stats.delivered || 0,
+//         cancelled: data.stats.cancelled || 0,
+//         pending: data.stats.pending || 0
+//       }
+//     };
+//   } catch (error) {
+//     console.error("Error fetching user orders:", error);
+//     return { stats: { delivered: 0, cancelled: 0, pending: 0 } }; // Default stats if error occurs
+//   }
+// }
+
 
 
 
