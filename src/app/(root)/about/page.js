@@ -1,9 +1,9 @@
 
 export default async function About(){
     return(
-        <div>
+        <div className="mt-10">
           
-            <h1 className="text-3xl text-center font-serif my-20">About</h1>
+            <h1 className="text-3xl text-center font-serif mt-30">About</h1>
         </div>
     )
 }
