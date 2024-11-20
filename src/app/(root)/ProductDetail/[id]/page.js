@@ -798,12 +798,212 @@
 
 
 
+// "use client";
+
+// import { useState, useEffect } from "react";
+// import { Button } from "@/components/ui/button";
+// import { useSession } from "next-auth/react";
+// import { useToast } from "@/hooks/use-toast"
+// import { addCarts } from "@/actions/addToCartAction";
+// import Feedback from "@/components/ProductsFeedback/Feedback";
+
+// export default function ProductDetail({ params }) {
+//   const { id } = params;
+//   const { data: session } = useSession();
+
+//   const [product, setProduct] = useState(null);
+//   const [loading, setLoading] = useState(true);
+//   const [error, setError] = useState(null);
+//   const [quantity, setQuantity] = useState(1);
+
+//   const [feedbackList, setFeedbackList] = useState([]);
+
+//   const { toast } = useToast()
+
+//   useEffect(() => {
+//     const fetchProductDetail = async () => {
+//       try {
+//         const response = await fetch(`/api/products/${id}`);
+//         if (!response.ok) throw new Error("Failed to fetch product details");
+//         const data = await response.json();
+//         setProduct(data);
+//       } catch (error) {
+//         setError(error.message);
+//       } finally {
+//         setLoading(false);
+//       }
+//     };
+//     fetchProductDetail();
+//   }, [id]);
+
+//   useEffect(() => {
+//     const fetchFeedback = async () => {
+//       try {
+//         const response = await fetch(`/api/feedback/${id}`);
+//         const data = await response.json();
+//         if (data.success) {
+//           setFeedbackList(data.feedbacks);
+//         } else {
+//           console.error("Failed to fetch feedback");
+//         }
+//       } catch (error) {
+//         console.error("Error fetching feedback", error);
+//       }
+//     };
+
+//     fetchFeedback();
+//   }, [id]);
+
+
+//   const handleAddToCart = async () => {
+//     try {
+//       if (!session || !session.user || !session.user._id) {
+//         throw new Error("User not authenticated");
+//       }
+//       if (!product) throw new Error("Product not found");
+
+//       const cartItem = {
+//         productId: product._id,
+//         title: product.title,
+//         description: product.description,
+//         price: product.price,
+//         quantity,
+//         imageUrl: product.imageUrl,
+//         category: product.category?.title,
+//         user: session.user._id,
+//       };
+
+//       const res = await addCarts(cartItem);
+//       if (!res.success) throw new Error("Failed to add to cart");
+
+//       toast({
+//         title: "Added to cart!",
+//       })
+//       alert('Added to cart!')
+//     } catch (error) {
+//       toast(error.message);
+//     }
+//   };
+
+//   const handleIncrement = () => setQuantity((prev) => prev + 1);
+//   const handleDecrement = () => setQuantity((prev) => Math.max(prev - 1, 1));
+//   const totalPrice = product?.price * quantity;
+
+//   if (loading) {
+//     return (
+//       <section className="text-gray-600 body-font">
+//         <div className="container px-5 py-24 mx-auto">
+//           <div className="lg:w-4/5 mx-auto flex flex-wrap">
+//             <div className="lg:w-1/2 w-full h-96 bg-gray-300 rounded animate-pulse"></div>
+//             <div className="lg:w-1/2 w-full lg:pl-10 lg:py-6 mt-6 lg:mt-0">
+//               <div className="h-6 bg-gray-300 rounded mb-4 animate-pulse"></div>
+//               <div className="h-4 bg-gray-300 rounded mb-6 animate-pulse"></div>
+//               <div className="flex mt-6 items-center pb-5 border-b-2 border-gray-200 mb-5">
+//                 <span className="h-8 w-1/4 bg-gray-300 rounded animate-pulse"></span>
+//               </div>
+//               <div className="flex items-center mb-4">
+//                 <button className="h-10 w-12 bg-gray-300 rounded animate-pulse"></button>
+//                 <span className="mx-4 h-6 bg-gray-300 w-12 rounded animate-pulse"></span>
+//                 <button className="h-10 w-12 bg-gray-300 rounded animate-pulse"></button>
+//               </div>
+//               <div className="h-12 w-32 bg-gray-300 rounded animate-pulse"></div>
+//             </div>
+//           </div>
+//         </div>
+//       </section>
+//     );
+//   }
+
+//   if (error) return <p>Error loading product details: {error}</p>;
+
+//   return (
+//     <section>
+//       {product ? (
+//         <div className="container px-5 py-24 mx-auto">
+//           <div className="lg:w-4/5 mx-auto flex flex-wrap">
+//             <img
+//               alt={product.title}
+//               className="lg:w-1/2 w-full object-cover object-center rounded border border-gray-200"
+//               src={product.imageUrl || "/placeholder.svg?height=400&width=720"}
+//             />
+//             <div className="lg:w-1/2 w-full lg:pl-10 lg:py-6 mt-6 lg:mt-0">
+//               <h2 className="text-sm title-font text-gray-500 tracking-widest mb-7">
+//                 Category: {product.category?.title}
+//               </h2>
+//               <h1 className="text-gray-900 text-3xl title-font font-medium mb-1">
+//                 {product.title}
+//               </h1>
+//               <p className="leading-relaxed">{product.description || "No description available"}</p>
+//               <div className="flex items-center justify-between gap-5 mt-5">
+//                 <span className="title-font font-medium text-2xl text-gray-900">
+//                   PKR: {totalPrice?.toFixed(2)}
+//                 </span>
+//                 <button onClick={handleDecrement} className="rounded-full w-10 h-10 flex items-center justify-center font-bold text-white bg-gray-700 border-0 focus:outline-none hover:bg-gray-300 hover:text-black">
+//                   -
+//                 </button>
+//                 <p>{quantity}</p>
+//                 <button onClick={handleIncrement} className="rounded-full font-bold w-10 h-10 bg-gray-700 p-0 border-0 inline-flex items-center justify-center text-white hover:bg-gray-300 hover:text-black">
+//                   +
+//                 </button>
+//               </div>
+//               <Button onClick={handleAddToCart} className="w-full my-10 bg-gray-700 hover:bg-gray-300 hover:text-black">
+//                 Add to Cart
+//               </Button>
+//               {/* <FeedbackComponent productId={product._id} session={session} /> */}
+//               {/* <Feedback productId={id} /> */}
+//               <Feedback productId={product._id} userId={session.user._id} />
+//             </div>
+//           </div>
+//           <div className="mt-10">
+//   <h3 className="text-2xl font-bold mb-5">Customer Feedback</h3>
+//   {feedbackList.length > 0 ? (
+//     feedbackList.map((feedback) => (
+//       <div key={feedback._id} className="flex items-start gap-5 mb-5">
+//         <img
+//           src={feedback.userId.picture || '/placeholder-profile.png'}
+//           alt={`${feedback.userId.name}'s profile`}
+//           className="w-12 h-12 rounded-full"
+//         />
+//         <div>
+//           <h4 className="text-lg font-medium">{feedback.userId.name}</h4>
+//           <p className="text-gray-600">{feedback.feedback}</p>
+//         </div>
+//       </div>
+//     ))
+
+//       ) : (
+//         <div>Product not found</div>
+//       )}
+//     </section>
+//   );
+// }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 "use client";
 
 import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { useSession } from "next-auth/react";
-import { useToast } from "@/hooks/use-toast"
+import { useToast } from "@/hooks/use-toast";
 import { addCarts } from "@/actions/addToCartAction";
 import Feedback from "@/components/ProductsFeedback/Feedback";
 
@@ -815,9 +1015,10 @@ export default function ProductDetail({ params }) {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [quantity, setQuantity] = useState(1);
+  const [feedbackList, setFeedbackList] = useState([]);
+  const { toast } = useToast();
 
-  const { toast } = useToast()
-
+  // Fetch Product Details
   useEffect(() => {
     const fetchProductDetail = async () => {
       try {
@@ -831,28 +1032,27 @@ export default function ProductDetail({ params }) {
         setLoading(false);
       }
     };
+
     fetchProductDetail();
   }, [id]);
 
+  // Fetch Feedback
   useEffect(() => {
     const fetchFeedback = async () => {
       try {
         const response = await fetch(`/api/feedback/${id}`);
+        if (!response.ok) throw new Error("Failed to fetch feedback");
         const data = await response.json();
-        if (data.success) {
-          setFeedbackList(data.feedbacks);
-        } else {
-          console.error("Failed to fetch feedback");
-        }
+        setFeedbackList(data.feedbacks || []);
       } catch (error) {
-        console.error("Error fetching feedback", error);
+        console.error("Error fetching feedback:", error);
       }
     };
 
     fetchFeedback();
   }, [id]);
 
-
+  // Add to Cart Handler
   const handleAddToCart = async () => {
     try {
       if (!session || !session.user || !session.user._id) {
@@ -876,16 +1076,22 @@ export default function ProductDetail({ params }) {
 
       toast({
         title: "Added to cart!",
-      })
-      alert('Added to cart!')
+        description: `${product.title} has been added to your cart.`,
+      });
     } catch (error) {
-      toast(error.message);
+      toast({
+        title: "Error",
+        description: error.message,
+        variant: "destructive",
+      });
     }
   };
 
+  // Increment/Decrement Quantity
   const handleIncrement = () => setQuantity((prev) => prev + 1);
   const handleDecrement = () => setQuantity((prev) => Math.max(prev - 1, 1));
-  const totalPrice = product?.price * quantity;
+
+  const totalPrice = (product?.price || 0) * quantity;
 
   if (loading) {
     return (
@@ -912,61 +1118,86 @@ export default function ProductDetail({ params }) {
     );
   }
 
-  if (error) return <p>Error loading product details: {error}</p>;
+  if (error) return <p className="text-red-500">Error loading product details: {error}</p>;
 
   return (
-    <section>
-      {product ? (
-        <div className="container px-5 py-24 mx-auto">
-          <div className="lg:w-4/5 mx-auto flex flex-wrap">
-            <img
-              alt={product.title}
-              className="lg:w-1/2 w-full object-cover object-center rounded border border-gray-200"
-              src={product.imageUrl || "/placeholder.svg?height=400&width=720"}
-            />
-            <div className="lg:w-1/2 w-full lg:pl-10 lg:py-6 mt-6 lg:mt-0">
-              <h2 className="text-sm title-font text-gray-500 tracking-widest mb-7">
-                Category: {product.category?.title}
-              </h2>
-              <h1 className="text-gray-900 text-3xl title-font font-medium mb-1">
-                {product.title}
-              </h1>
-              <p className="leading-relaxed">{product.description || "No description available"}</p>
-              <div className="flex items-center justify-between gap-5 mt-5">
-                <span className="title-font font-medium text-2xl text-gray-900">
-                  PKR: {totalPrice?.toFixed(2)}
-                </span>
-                <button onClick={handleDecrement} className="rounded-full w-10 h-10 flex items-center justify-center font-bold text-white bg-gray-700 border-0 focus:outline-none hover:bg-gray-300 hover:text-black">
-                  -
-                </button>
-                <p>{quantity}</p>
-                <button onClick={handleIncrement} className="rounded-full font-bold w-10 h-10 bg-gray-700 p-0 border-0 inline-flex items-center justify-center text-white hover:bg-gray-300 hover:text-black">
-                  +
-                </button>
-              </div>
-              <Button onClick={handleAddToCart} className="w-full my-10 bg-gray-700 hover:bg-gray-300 hover:text-black">
-                Add to Cart
-              </Button>
-              {/* <FeedbackComponent productId={product._id} session={session} /> */}
-              <Feedback productId={id} />
-            </div>
+    <section className="container px-5 py-24 mx-auto">
+      <div className="lg:w-4/5 mx-auto flex flex-wrap">
+        <img
+          alt={product?.title}
+          className="lg:w-1/2 w-full object-cover object-center rounded border border-gray-200"
+          src={product?.imageUrl || "/placeholder.svg?height=400&width=720"}
+        />
+        <div className="lg:w-1/2 w-full lg:pl-10 lg:py-6 mt-6 lg:mt-0">
+          <h2 className="text-sm title-font text-gray-500 tracking-widest mb-7">
+            Category: {product?.category?.title || "Uncategorized"}
+          </h2>
+          <h1 className="text-gray-900 text-3xl title-font font-medium mb-1">
+            {product?.title}
+          </h1>
+          <p className="leading-relaxed">{product?.description || "No description available"}</p>
+          <div className="flex items-center justify-between gap-5 mt-5">
+            <span className="title-font font-medium text-2xl text-gray-900">
+              PKR: {totalPrice?.toFixed(2)}
+            </span>
+            <button
+              onClick={handleDecrement}
+              className="rounded-full w-10 h-10 flex items-center justify-center font-bold text-white bg-gray-700 hover:bg-gray-300 hover:text-black"
+            >
+              -
+            </button>
+            <p>{quantity}</p>
+            <button
+              onClick={handleIncrement}
+              className="rounded-full w-10 h-10 flex items-center justify-center font-bold text-white bg-gray-700 hover:bg-gray-300 hover:text-black"
+            >
+              +
+            </button>
           </div>
-          {/* <div>
-            <h3>Customer Feedback</h3>
-            {feedbackList.map((feedback) => (
-              <div key={feedback._id} className="feedback">
-                <p>{feedback.feedback}</p>
-                {feedback.fileUrl && (
-                  <Image src={feedback.fileUrl} alt="Feedback file" width={200} height={200} />
-                )}
-              </div>
-            ))}
-          </div> */}
+          <Button onClick={handleAddToCart} className="w-full my-10 bg-gray-700 hover:bg-gray-300 hover:text-black">
+            Add to Cart
+          </Button>
+          <Feedback productId={product?._id} userId={session?.user?._id} />
         </div>
+      </div>
+      <div className="mt-10">
+        <h3 className="text-2xl font-bold mb-5">Customer Feedback</h3>
+        {feedbackList.length > 0 ? (
+          feedbackList.map((fb) => (
+            <div key={fb._id} className="flex items-start gap-5 mb-5 p-3 bg-gray-300">
+              {/* User Profile Picture */}
+              <img
+                src={fb.imageUrl || "/placeholder-profile.png"}
+                alt="User Profile"
+                className="w-12 h-12 rounded-full"
+              />
 
-      ) : (
-        <div>Product not found</div>
-      )}
+              {/* Feedback Details */}
+              <div>
+                {/* User's Name */}
+                <h4 className="text-lg font-medium">
+                  {fb.userId?.firstName || "Anonymous"}
+                </h4>
+
+                {/* User's Email */}
+                <p className="text-gray-600">
+                  {fb.userId?.email || "No Email Provided"}
+                </p>
+
+                {/* Feedback Message */}
+                <p className="text-gray-800 mt-2">{fb.feedback}</p>
+                {/* Date Feedback was Added */}
+                <p className="text-gray-500 text-sm mt-1">
+                  Added on: {new Date(fb.createdAt).toLocaleString()}
+                </p>
+              </div>
+            </div>
+          ))
+        ) : (
+          <p>No feedback available for this product.</p>
+        )}
+
+      </div>
     </section>
   );
 }

@@ -10,6 +10,7 @@ import { addFeedback } from "@/actions/productsFeedbackAction";
 export default function Feedback({ productId, userId }) {
   const [feedbackText, setFeedbackText] = useState("");
   const [file, setFile] = useState(null);
+  const [loading, setLoading] = useState(false);
   const { toast } = useToast();
 
   const handleFileChange = (event) => {
@@ -21,6 +22,7 @@ export default function Feedback({ productId, userId }) {
       toast({ title: "Please provide feedback text or upload a file." });
       return;
     }
+    setLoading(true);
 
     try {
       let uploadedImageUrl = null;
@@ -48,7 +50,10 @@ export default function Feedback({ productId, userId }) {
       setFile(null);
     } catch (error) {
       toast({ title: error.message });
+    }finally {
+      setLoading(false);
     }
+
   };
 
   return (
@@ -69,17 +74,39 @@ export default function Feedback({ productId, userId }) {
               value={feedbackText}
               onChange={(e) => setFeedbackText(e.target.value)}
             />
-            <input
+            {/* <input
               type="file"
               accept="image/*,video/*"
               onChange={handleFileChange}
               className="mb-4"
-            />
+            /> */}
+
+            <div>
+              <label
+                htmlFor="image"
+                className="flex flex-col items-center justify-center w-full h-32 px-4 border-2 border-dashed border-gray-300 rounded-lg cursor-pointer bg-gray-50 hover:bg-gray-100"
+              >
+                <span className="text-sm text-gray-600">
+                  {file
+                    ? `Selected file: ${file.name}`
+                    : "Click to select an image"}
+                </span>
+                <input
+                  type="file"
+                  id="image"
+                  name="image"
+                  onChange={handleFileChange}
+                  className="hidden"
+                  required
+                />
+              </label>
+            </div>
+
             <Button
               onClick={handleAddFeedback}
-              className="w-full bg-gray-700 hover:bg-gray-300 hover:text-black"
+              className="w-full bg-gray-700 hover:bg-gray-300 hover:text-black mt-3"
             >
-              Add Feedback
+              {loading ? "Submitting..." : "Add Feedback"}
             </Button>
           </div>
         </SheetContent>
