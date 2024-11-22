@@ -8,6 +8,8 @@
 // // // //   TableRow,
 // // // // } from "@/components/ui/table";
 
+import FeedbackPage from "./feedbacks";
+
 // // // // const feedbacks = [
 // // // //   {
 // // // //     CutomerName: "Shoaib",
@@ -158,52 +160,18 @@
 
 
 
-// import { Suspense } from 'react';
-// import FeedbackTable from './data-table';
-
-// export default function FeedbackPage() {
-//   return (
-//     <div className="container mx-auto py-10">
-//       <h1 className="text-2xl font-bold mb-5">Feedback</h1>
-//       <Suspense fallback={<div>Loading...</div>}>
-//         <FeedbackTable />
-//       </Suspense>
-//     </div>
-//   );
-// }
 
 
-
-
-
-
-
-'use client'
-
-import { useState } from 'react'
-import { useRouter } from 'next/navigation'
-import { getFeedback } from '@/actions/productsFeedbackAction'
-import { DataTable } from './data-Table'
-import { columns } from './columns'
-
-export default function FeedbackPage() {
-  const [data, setData] = useState([])
-  const router = useRouter()
-
-  const loadFeedback = async () => {
-    const feedback = await getFeedback()
-    setData(feedback)
-  }
-
-  // Load feedback data on component mount
-  useState(() => {
-    loadFeedback()
-  }, [])
-
+export default function Feedbacks() {
   return (
     <div className="container mx-auto py-10">
-      <DataTable columns={columns} data={data} />
+      <FeedbackPage />
     </div>
-  )
+  );
 }
+
+
+
+
+
 

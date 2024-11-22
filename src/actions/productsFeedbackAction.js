@@ -67,32 +67,19 @@ import { AddProduct } from "@/lib/models/AddProduct"; // Assuming you have a Pro
 // }
 
 export async function getFeedback() {
-  await connectDB();
+  try {
+    const response = await fetch(`${process.env.BASE_URL}api/feedback`, {
+      method: "GET",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(),
+    });
 
-  const feedbacks = await FeedbackModal.find()
-    .populate('userId')
-    .populate('productId')
-    .sort({ createdAt: -1 })
-    .lean();
-
-  // Serialize the feedbacks to plain objects
-  const serializedFeedbacks = feedbacks.map(feedback => ({
-    id: feedback._id.toString(),
-    userName: feedback.userId?.firstName || null,
-    userEmail: feedback.userId?.email || null,
-    userPicture: feedback.userId?.picture || null,
-    productName: feedback.productId?.title || null,
-    productCategory: feedback.productId?.category || null,
-    productImage: feedback.productId?.image || null,
-    feedback: feedback.feedback,
-    imageUrl: feedback.imageUrl,
-    createdAt: feedback.createdAt.toISOString(),
-    updatedAt: feedback.updatedAt.toISOString(),
-  }));
-
-  console.log('Serialized feedbacks:', serializedFeedbacks);
-
-  return serializedFeedbacks;
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    console.error("Error adding feedback:", error.message);
+    throw error;
+  }
 }
 
 

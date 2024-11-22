@@ -38,7 +38,7 @@ const FeedbackSchema = new mongoose.Schema(
     //   ref: "AddProduct", // Reference to the Product collection
     //   required: true,
     // },
-    productId: { type: mongoose.Types.ObjectId, ref: 'Product', required: true },
+    productId: { type: mongoose.Types.ObjectId, ref: 'AddProduct', required: true },
     feedback: { type: String, required: true },
     imageUrl: { type: String },
   },
