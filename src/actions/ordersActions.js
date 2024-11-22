@@ -84,3 +84,13 @@ export async function updateOrders(id, status) {
 }
 
 
+export async function deleteOrder(orderId) {
+  const res = await fetch(`${process.env.BASE_URL}api/orders/${orderId}`, {
+    method: 'DELETE',
+  });
+  const data = await res.json();
+  if (data.error) {
+    throw new Error(data.msg);
+  }
+  return data;
+}

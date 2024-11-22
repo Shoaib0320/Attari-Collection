@@ -1164,21 +1164,24 @@ export default function ProductDetail({ params }) {
         <h3 className="text-2xl font-bold mb-5">Customer Feedback</h3>
         {feedbackList.length > 0 ? (
           feedbackList.map((fb) => (
-            <div key={fb._id} className="flex items-start gap-5 mb-5 p-3 bg-gray-300">
+            <div key={fb._id} className="flex items-center gap-5 mb-5 p-3 bg-gray-100">
               {/* User Profile Picture */}
-              <img
-                src={fb.imageUrl || "/placeholder-profile.png"}
-                alt="User Profile"
-                className="w-12 h-12 rounded-full"
-              />
+              <div>
+                <img
+                  src={fb.imageUrl || "/placeholder-profile.png"}
+                  alt="User Profile"
+                  className="w-12 h-12 rounded-full"
+                />
+              </div>
+
 
               {/* Feedback Details */}
               <div>
                 {/* User's Name */}
                 <h4 className="text-lg font-medium">
-                  {fb.userId?.firstName || "Anonymous"}
+                  {fb.userId || "Anonymous"}
                 </h4>
-
+              
                 {/* User's Email */}
                 <p className="text-gray-600">
                   {fb.userId?.email || "No Email Provided"}

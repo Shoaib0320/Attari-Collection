@@ -113,6 +113,12 @@ export function AppSidebar() {
                         <ChatBubbleLeftIcon className="w-6 h-6 mr-3" /> {/* Feedback icon */}
                         Feedback
                     </Link>
+                    <Link href="/admin/storeFeedbacks" 
+                        className="flex items-center p-3 rounded bg-gray-800 text-white hover:bg-gray-300 hover:text-black transition w-full sm:w-auto"
+                        >
+                        <ChatBubbleLeftIcon className="w-6 h-6 mr-3" /> {/* Feedback icon */}
+                        Store Feedbacks
+                    </Link>
                 </nav>
             </SidebarContent>
 

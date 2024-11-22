@@ -17,11 +17,52 @@ export default function Feedback({ productId, userId }) {
     setFile(event.target.files[0]);
   };
 
+  // const handleAddFeedback = async () => {
+  //   if (!feedbackText && !file) {
+  //     toast({ title: "Please provide feedback text or upload a file." });
+  //     return;
+  //   }
+  //   setLoading(true);
+
+  //   try {
+  //     let uploadedImageUrl = null;
+
+  //     if (file) {
+  //       const formData = new FormData();
+  //       formData.append("thumbnail", file);
+
+  //       uploadedImageUrl = await uploadImage(formData);
+  //       if (!uploadedImageUrl) throw new Error("Failed to upload image.");
+  //     }
+
+  //     const feedbackData = {
+  //       userId,
+  //       productId,
+  //       feedback: feedbackText,
+  //       imageUrl: uploadedImageUrl,
+  //     };
+
+  //     const res = await addFeedback(feedbackData);
+  //     if (!res.success) throw new Error("Failed to save feedback.");
+
+  //     toast({ title: "Feedback added successfully!" });
+  //     setFeedbackText("");
+  //     setFile(null);
+  //   } catch (error) {
+  //     toast({ title: error.message });
+  //   }finally {
+  //     setLoading(false);
+  //   }
+
+  // };
+
+
   const handleAddFeedback = async () => {
     if (!feedbackText && !file) {
       toast({ title: "Please provide feedback text or upload a file." });
       return;
     }
+
     setLoading(true);
 
     try {
@@ -50,12 +91,11 @@ export default function Feedback({ productId, userId }) {
       setFile(null);
     } catch (error) {
       toast({ title: error.message });
-    }finally {
+    } finally {
       setLoading(false);
     }
-
   };
-
+  
   return (
     <div>
       <Sheet>
@@ -74,12 +114,6 @@ export default function Feedback({ productId, userId }) {
               value={feedbackText}
               onChange={(e) => setFeedbackText(e.target.value)}
             />
-            {/* <input
-              type="file"
-              accept="image/*,video/*"
-              onChange={handleFileChange}
-              className="mb-4"
-            /> */}
 
             <div>
               <label

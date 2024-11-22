@@ -15,7 +15,7 @@ export default async function AddToCartPage() {
     )
   }
 
-  console.log("session=> AddTocart", session);
+  // console.log("session=> AddTocart", session);
   
   return (
     <>
