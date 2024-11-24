@@ -126,7 +126,7 @@ import {
   TableRow,
 } from "@/components/ui/table"
 import { Button } from "@/components/ui/button"
-import { DetailSheet } from "./detail-sheet"
+import { DetailSheet } from "./detail-Sheet"
 
 const columns = [
   {
