@@ -1,15 +1,21 @@
-"use client"
+'use client'
 
+import { useState, useEffect } from 'react'
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { ResponsiveContainer, PieChart, Pie, Cell, Legend } from "recharts"
+import { getTopProducts } from '@/actions/getTopProducts'
 
 export default function TopProducts() {
-  const data = [
-    { name: "T-Shirts", value: 400 },
-    { name: "Jeans", value: 300 },
-    { name: "Sneakers", value: 200 },
-    { name: "Dresses", value: 100 },
-  ]
+  const [data, setData] = useState([])
+
+  useEffect(() => {
+    async function fetchData() {
+      const topProducts = await getTopProducts()
+      console.log("Fetched Top Products:", topProducts); // Debugging
+      setData(topProducts)
+    }
+    fetchData()
+  }, [])
 
   const COLORS = ["#0088FE", "#00C49F", "#FFBB28", "#FF8042"]
 
@@ -41,4 +47,3 @@ export default function TopProducts() {
     </Card>
   )
 }
-
