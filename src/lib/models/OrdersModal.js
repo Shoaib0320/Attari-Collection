@@ -21,7 +21,8 @@ const orderSchema = new Schema({
   ],
   number: { type: String, required: true },
   address: { type: String, required: true },
-  date: String,
+  // date: String,
+  date: { type: Date, required: true },  // Changed from String to Date
 }, { timestamps: true });
 
 export const OrdersModel =
