@@ -10,6 +10,9 @@ const nextConfig = {
       },
       {
         hostname : 't4.ftcdn.net'
+      },
+      {
+        hostname : 'res.cloudinary.com'
       }
     ],
     

@@ -90,9 +90,9 @@ export function DetailSheet({ children, feedback }) {
           <SheetTitle>Feedback Details</SheetTitle>
         </SheetHeader>
         <div className="mt-4 space-y-4">
-          <p><strong>User:</strong> {feedback.userId.firstName}</p>
-          <p><strong>Email:</strong> {feedback.userId.email}</p>
-          <p><strong>Feedback:</strong> {feedback.feedback}</p>
+          <p><strong>User:</strong> {feedback?.userId?.firstName}</p>
+          <p><strong>Email:</strong> {feedback?.userId?.email}</p>
+          <p><strong>Feedback:</strong> {feedback?.feedback}</p>
           <h3 className="text-lg font-semibold">Products</h3>
           {isLoading ? (
             <p>Loading products...</p>

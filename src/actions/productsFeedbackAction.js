@@ -100,3 +100,8 @@ export async function addFeedback(feedbackData) {
     throw error;
   }
 }
+
+export async function fetchFeedbacks() {
+  const res = await fetch(`${process.env.BASE_URL}/api/feedback`);
+  return res.json();
+}

@@ -1,5 +1,7 @@
 import { FeedbackModal } from "@/lib/models/ProductFeedback";
 import { connectDB } from "@/lib/db/connectDB";
+import AddProduct from "@/lib/models/AddProduct";
+import { CategoryModal } from "@/lib/models/Category";
 
 export async function POST(req) {
   await connectDB();
@@ -15,37 +17,29 @@ export async function POST(req) {
 }
 
 
-// export async function GET() {
-//   await connectDB();
-//   const feedbacks = await FeedbackModal.find({})
-//     .populate("userId", "firstName email picture") // Adjust fields based on User schema
-//     .populate("productId", "title category imageUrl") // Adjust fields based on Product schema
-//     .exec();
-
-//     console.log('userId', userId)
-
-//   return Response.json(feedbacks);
-// }
 
 export async function GET(req) {
-  try {
-    await connectDB();
+  await connectDB();
 
-    const feedbacks = await FeedbackModal.find()
-      .populate('userId') // Populate user details
-      .populate('productId'); // Populate product details
+  try {
+    const feedbacks = await FeedbackModal.find({})
+      .populate("userId", "firstName lastName email")
+      // .populate("productId", "title category imageUrl");
+      .populate({
+        path: "productId", // Populate product details
+        select: "title imageUrl category", // Select specific fields
+        populate: {
+          path: "category", // Populate nested category details
+          select: "title", // Select category title
+        },
+      });
 
     return Response.json({
-      success: true,
       feedbacks,
     });
   } catch (error) {
-    console.error("Error fetching feedbacks:", error);
     return Response.json(
-      {
-        success: false,
-        message: "Failed to fetch feedbacks",
-      },
+      { error: true, message: error.message },
       { status: 500 }
     );
   }
