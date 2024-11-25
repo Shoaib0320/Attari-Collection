@@ -121,40 +121,40 @@
 //   )
 // }
 
+// File: ./src/app/(admin)/admin/storeFeedbacks/components/detail-Sheet.js
 
+"use client";
 
-"use client"
-
-import { useState, useEffect } from "react"
-import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from "@/components/ui/sheet"
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import Image from "next/image"
+import { useState, useEffect, useCallback } from "react";
+import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from "@/components/ui/sheet";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import Image from "next/image";
 
 export function DetailSheet({ children, feedback }) {
-  const [products, setProducts] = useState([])
-  const [isLoading, setIsLoading] = useState(false)
-  const [error, setError] = useState(null)
+  const [products, setProducts] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState(null);
 
-  const fetchProducts = async () => {
-    if (!feedback?.productId?.length) return
+  const fetchProducts = useCallback(async () => {
+    if (!feedback?.productId?.length) return;
 
-    setIsLoading(true)
-    setError(null)
+    setIsLoading(true);
+    setError(null);
     try {
-      const res = await fetch(`/api/products?ids=${feedback.productId.join(",")}`)
-      if (!res.ok) throw new Error("Failed to fetch products")
-      const data = await res.json()
-      setProducts(data)
+      const res = await fetch(`/api/products?ids=${feedback.productId.join(",")}`);
+      if (!res.ok) throw new Error("Failed to fetch products");
+      const data = await res.json();
+      setProducts(data);
     } catch (error) {
-      setError(error.message || "Something went wrong while fetching products.")
+      setError(error.message || "Something went wrong while fetching products.");
     } finally {
-      setIsLoading(false)
+      setIsLoading(false);
     }
-  }
+  }, [feedback]);
 
   useEffect(() => {
-    fetchProducts()
-  }, [feedback])
+    fetchProducts();
+  }, [fetchProducts]);
 
   return (
     <Sheet>
@@ -209,5 +209,5 @@ export function DetailSheet({ children, feedback }) {
         </div>
       </SheetContent>
     </Sheet>
-  )
+  );
 }
