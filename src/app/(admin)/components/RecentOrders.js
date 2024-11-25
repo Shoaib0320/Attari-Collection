@@ -128,6 +128,8 @@
 
 
 
+// @/app/(admin)/components/RecentOrders.js
+
 "use client";
 
 import { useState, useEffect } from "react";
@@ -146,11 +148,12 @@ export default function RecentOrders() {
   useEffect(() => {
     const fetchOrders = async () => {
       try {
-        const response = await fetch("/api/todayOrders");
+        const response = await fetch(`api/todayOrders`);
         if (!response.ok) {
           throw new Error("Failed to fetch orders");
         }
         const data = await response.json();
+        console.log("API URL:", `${process.env.BASE_URL}api/todayOrders`);
         setOrders(data);
         setIsLoading(false);
       } catch (error) {
