@@ -110,83 +110,37 @@ export async function POST(req) {
 //   }
 
 
-// export async function GET(req) {
-//   await connectDB();
-
-//   const { searchParams } = new URL(req.url);
-//   const userId = searchParams.get("userId");
-//   const status = req?.nextUrl?.searchParams?.get("status");
-
-//   const stats = {
-//     accepted: await OrdersModel.find({
-//       status: "delivered",
-//     }).countDocuments(),
-//     cancelled: await OrdersModel.find({
-//       status: "cancelled",
-//     }).countDocuments(),
-//     pending: await OrdersModel.find({
-//       status: "pending",
-//     }).countDocuments(),
-//   };
-
-//   try {
-//     let query = {};
-//     if (userId) {
-//       query = { user: userId }; // Assuming `user` is the field referencing the user in your Orders model
-//     }
-
-//     const orders = await OrdersModel.find(query).populate("user");
-//     return new Response(
-//       JSON.stringify({
-//         error: false,
-//         msg: "Orders fetched successfully",
-//         orders,
-//       }),
-//       { status: 200 }
-//     );
-//   } catch (error) {
-//     console.error("Error fetching orders:", error);
-//     return new Response(
-//       JSON.stringify({
-//         error: true,
-//         msg: "Failed to fetch orders.",
-//       }),
-//       { status: 500 }
-//     );
-//   }
-// }
-
-
 export async function GET(req) {
   await connectDB();
 
   const { searchParams } = new URL(req.url);
   const userId = searchParams.get("userId");
-  const status = searchParams.get("status");
+  const status = req?.nextUrl?.searchParams?.get("status");
 
   const stats = {
-    delivered: await OrdersModel.find({ status: "delivered" }).countDocuments(),
-    cancelled: await OrdersModel.find({ status: "cancelled" }).countDocuments(),
-    pending: await OrdersModel.find({ status: "pending" }).countDocuments(),
+    accepted: await OrdersModel.find({
+      status: "delivered",
+    }).countDocuments(),
+    cancelled: await OrdersModel.find({
+      status: "cancelled",
+    }).countDocuments(),
+    pending: await OrdersModel.find({
+      status: "pending",
+    }).countDocuments(),
   };
 
   try {
     let query = {};
     if (userId) {
-      query = { user: userId }; // Filter by user if provided
-    }
-    if (status) {
-      query.status = status; // Filter by status if provided
+      query = { user: userId }; // Assuming `user` is the field referencing the user in your Orders model
     }
 
-    const orders = await OrdersModel.find(query).populate("user"); // Fetch the orders based on the query
-
+    const orders = await OrdersModel.find(query).populate("user");
     return new Response(
       JSON.stringify({
         error: false,
         msg: "Orders fetched successfully",
         orders,
-        stats, // Return the calculated stats
       }),
       { status: 200 }
     );
@@ -201,6 +155,52 @@ export async function GET(req) {
     );
   }
 }
+
+
+// export async function GET(req) {
+//   await connectDB();
+
+//   const { searchParams } = new URL(req.url);
+//   const userId = searchParams.get("userId");
+//   const status = searchParams.get("status");
+
+//   const stats = {
+//     delivered: await OrdersModel.find({ status: "delivered" }).countDocuments(),
+//     cancelled: await OrdersModel.find({ status: "cancelled" }).countDocuments(),
+//     pending: await OrdersModel.find({ status: "pending" }).countDocuments(),
+//   };
+
+//   try {
+//     let query = {};
+//     if (userId) {
+//       query = { user: userId }; // Filter by user if provided
+//     }
+//     if (status) {
+//       query.status = status; // Filter by status if provided
+//     }
+
+//     const orders = await OrdersModel.find(query).populate("user"); // Fetch the orders based on the query
+
+//     return new Response(
+//       JSON.stringify({
+//         error: false,
+//         msg: "Orders fetched successfully",
+//         orders,
+//         stats, // Return the calculated stats
+//       }),
+//       { status: 200 }
+//     );
+//   } catch (error) {
+//     console.error("Error fetching orders:", error);
+//     return new Response(
+//       JSON.stringify({
+//         error: true,
+//         msg: "Failed to fetch orders.",
+//       }),
+//       { status: 500 }
+//     );
+//   }
+// }
 
 
 // export async function PUT(req) {
