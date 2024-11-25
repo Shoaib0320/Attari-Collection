@@ -20,10 +20,10 @@
 
 import { redirect } from "next/navigation";
 import Dashboard from "../components/Dashboard";
-import RecentOrders from "../components/RecentOrders";
 import TopProducts from "../components/TopProducts";
 import SalesSummary from "../components/SalesSummary";
 import { auth } from "@/app/auth";
+import RecentOrders from "../components/RecentOrders";
 
 export default async function Admin() {
   const session = await auth();
