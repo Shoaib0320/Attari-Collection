@@ -17,46 +17,6 @@ export default function Feedback({ productId, userId }) {
     setFile(event.target.files[0]);
   };
 
-  // const handleAddFeedback = async () => {
-  //   if (!feedbackText && !file) {
-  //     toast({ title: "Please provide feedback text or upload a file." });
-  //     return;
-  //   }
-  //   setLoading(true);
-
-  //   try {
-  //     let uploadedImageUrl = null;
-
-  //     if (file) {
-  //       const formData = new FormData();
-  //       formData.append("thumbnail", file);
-
-  //       uploadedImageUrl = await uploadImage(formData);
-  //       if (!uploadedImageUrl) throw new Error("Failed to upload image.");
-  //     }
-
-  //     const feedbackData = {
-  //       userId,
-  //       productId,
-  //       feedback: feedbackText,
-  //       imageUrl: uploadedImageUrl,
-  //     };
-
-  //     const res = await addFeedback(feedbackData);
-  //     if (!res.success) throw new Error("Failed to save feedback.");
-
-  //     toast({ title: "Feedback added successfully!" });
-  //     setFeedbackText("");
-  //     setFile(null);
-  //   } catch (error) {
-  //     toast({ title: error.message });
-  //   }finally {
-  //     setLoading(false);
-  //   }
-
-  // };
-
-
   const handleAddFeedback = async () => {
     if (!feedbackText && !file) {
       toast({ title: "Please provide feedback text or upload a file." });
@@ -94,6 +54,7 @@ export default function Feedback({ productId, userId }) {
     } finally {
       setLoading(false);
     }
+
   };
   
   return (
@@ -148,3 +109,11 @@ export default function Feedback({ productId, userId }) {
     </div>
   );
 }
+
+
+
+
+
+
+
+

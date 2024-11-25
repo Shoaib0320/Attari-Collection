@@ -28,7 +28,7 @@ import { auth } from "@/app/auth";
 export default async function Admin() {
   const session = await auth();
   // Uncomment to enable redirection if not admin
-  if (!session || session?.user?.role !== "admin") redirect("/");
+  // if (!session || session?.user?.role !== "admin") redirect("/");
 
   return (
     <div className="min-h-screen bg-gradient-to-r from-gray-900 to-gray-800 text-gray-100">

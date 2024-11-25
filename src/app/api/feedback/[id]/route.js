@@ -39,7 +39,7 @@ export async function GET(req, { params }) {
       await connectDB(); // Connect to the database
   
       const feedbacks = await FeedbackModal.find({ productId: id })
-      .populate("userId", "firstName email picture") // Populate specific fields
+      .populate("userId", "firstName lastName email picture") // Populate specific fields
       .exec();  
       if (!feedbacks.length) {
         return new Response(

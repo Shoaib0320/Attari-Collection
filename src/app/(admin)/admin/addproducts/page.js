@@ -144,7 +144,7 @@ const AddProductsPage = () => {
 
   return (
     <div>
-      <div className="flex justify-between items-center my-20">
+      <div className="flex items-start justify-between my-20">
         <AddCategory />
         <Dialog open={isProductDialogOpen} onOpenChange={setProductDialogOpen}>
           <DialogTrigger asChild>
@@ -217,7 +217,7 @@ const AddProductsPage = () => {
         <TableSkeleton /> // Show loader when the loading state is true
       ) : (
         <>
-          <CategoryTable />
+        <CategoryTable />
           <ProductsTable
             products={products}
             onEditProduct={handleEdit}

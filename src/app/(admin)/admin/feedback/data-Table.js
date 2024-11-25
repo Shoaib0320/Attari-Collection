@@ -150,20 +150,10 @@ import {
 } from "@/components/ui/sheet"
 import Image from 'next/image'
 
-// type Feedback = {
-//   id: string
-//   userName: string
-//   userImage: string
-//   userEmail: string
-//   feedback: string
-//   productName: string
-//   productCategory: string
-//   productImage: string
-//   createdAt: string
-// }
-
 async function getFeedbacks(){
-  const res = await fetch('/api/feedback')
+  const res = await fetch('/api/feedback', {
+    cache: 'no-cache'
+  })
   if (!res.ok) throw new Error('Failed to fetch feedbacks')
   return res.json()
 }
