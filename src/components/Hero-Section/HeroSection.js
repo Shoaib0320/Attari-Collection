@@ -1,3 +1,4 @@
+import Image from "next/image";
 import SignIn from "../Sign-in/Sign-in";
 
 export default function HeroSection() {
@@ -16,7 +17,7 @@ export default function HeroSection() {
             <SignIn />
           </div>
           <div className="lg:max-w-lg lg:w-full md:w-1/2 w-full flex justify-center md:justify-end mb-10 md:mb-0">
-            <img
+            <Image
               className="object-cover object-center rounded"
               alt="hero"
               height={300}

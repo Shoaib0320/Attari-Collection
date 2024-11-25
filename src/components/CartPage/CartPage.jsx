@@ -494,11 +494,6 @@ export default function Component({ userId = '123' }) {
     <div className="min-h-screen bg-gray-900 text-white py-12 px-4 sm:px-6 lg:px-8">
       <div className="max-w-7xl mx-auto">
         <h1 className="text-center text-4xl font-bold mb-10 text-gold">Your Cart</h1>
-        {/* {loading ? (
-          <CartSkeleton />
-        ) : cartItems.length === 0 ? (
-          <p className="text-center text-gray-400 text-xl">Your cart is empty.</p>
-        ) : ( */}
          {loading ? (
           <CartSkeleton />
         ) : error ? (

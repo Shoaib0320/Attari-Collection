@@ -39,7 +39,7 @@ function DetailSheet({ order }) {
             {order.items.map((item, index) => (
               <div className="bg-gray-300 text-black my-3 p-3" key={index}>
                 <div className="flex justify-between items-center gap-2">
-                  <img src={item.imageUrl} className="w-20 h-20 rounded-full"/>
+                  <img src={item.imageUrl} alt={item.title} className="w-20 h-20 rounded-full"/>
                     {item.title} - Quantity: {item.quantity} - Price: PKR {item.price}
                 </div>
               </div>
