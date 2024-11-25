@@ -1,3 +1,6 @@
+//File: ./src/app/(root)/customerOrders/MyOrders.js
+
+
 'use client';
 
 import { useState, useEffect } from 'react';
@@ -17,9 +20,13 @@ export default function MyOrders({ userId }) {
     const [loadingOrderId, setLoadingOrderId] = useState(null);
     const [isOrderDetailOpen, setIsOrderDetailOpen] = useState(false);
 
+    // useEffect(() => {
+    //     fetchUserOrders();
+    // }, [userId]);
+
     useEffect(() => {
-        fetchUserOrders();
-    }, [userId]);
+        if (userId) fetchUserOrders();
+    }, [userId]);    
 
     const fetchUserOrders = async () => {
         try {
