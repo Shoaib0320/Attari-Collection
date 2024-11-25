@@ -7,6 +7,7 @@ import {
   SheetContent,
   SheetTrigger,
 } from "@/components/ui/sheet"
+import Image from "next/image"
 
 export const columns = [
   {
@@ -57,7 +58,10 @@ export const columns = [
               <p>
                 <strong>Feedback:</strong> {feedback.feedback}
               </p>
-              <img src={feedback.imageUrl} alt={feedback.feedback} className="w-full max-h-64 object-cover mt-4 rounded" />
+              <Image src={feedback.imageUrl} alt={feedback.feedback} className="w-full max-h-64 object-cover mt-4 rounded" 
+                height={100}
+                width={150}
+              />
             </div>
           </SheetContent>
         </Sheet>

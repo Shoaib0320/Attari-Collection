@@ -817,6 +817,7 @@ import { useToast } from "@/hooks/use-toast";
 import { addCarts } from "@/actions/addToCartAction";
 import Feedback from "@/components/ProductsFeedback/Feedback";
 import { useRouter } from "next/navigation";
+import Image from "next/image";
 
 export default function ProductDetail({ params }) {
   const { id } = params;
@@ -969,12 +970,12 @@ export default function ProductDetail({ params }) {
               {feedbacks.length > 0 ? (
                 feedbacks.map((feedback) => (
                   <div key={feedback._id} className="flex items-start space-x-6 border-b pb-6 px-4 rounded-lg shadow-lg hover:shadow-xl transition-shadow duration-300 bg-white">
-                    <img
+                    <Image
                       src={feedback.imageUrl || "/placeholder-avatar.png"} // fallback image
                       alt={feedback.userId.firstName}
                       className="w-16 h-16 rounded-full border-2 border-gray-300"
-                      // width={64}
-                      // height={64}
+                      width={64}
+                      height={64}
                     />
                     <div className="flex-1">
                       <p className="text-xl font-semibold text-gray-800">{feedback.userId.firstName} {feedback.userId.lastName || 'N/A'}</p>
