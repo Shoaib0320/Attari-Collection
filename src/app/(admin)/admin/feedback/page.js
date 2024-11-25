@@ -212,8 +212,8 @@
 
 import { useEffect, useState } from "react"
 import { Input } from "@/components/ui/input"
-import { DataTable } from "./data-table"
 import { columns, Feedback } from "./columns"
+import { DataTable } from "./data-table"
 
 export default function FeedbackPage() {
   const [feedbacks, setFeedbacks] = useState([])
