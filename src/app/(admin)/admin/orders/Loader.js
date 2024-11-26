@@ -10,6 +10,7 @@ function Loader() {
             <div className="h-6 w-32 bg-gray-600 rounded"></div>
             <div className="h-6 w-32 bg-gray-600 rounded"></div>
             <div className="h-6 w-32 bg-gray-600 rounded"></div>
+            <div className="h-6 w-32 bg-gray-600 rounded"></div>
           </div>
         ))}
       </div>
