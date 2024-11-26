@@ -157,36 +157,77 @@ export async function POST(req) {
 // }
 
 
+// export async function GET(req) {
+//   await connectDB();
+
+//   const { searchParams } = new URL(req.url);
+//   const userId = searchParams.get("userId");
+//   const status = searchParams.get("status");
+
+//   const stats = {
+//     delivered: await OrdersModel.find({ status: "delivered" }).countDocuments(),
+//     cancelled: await OrdersModel.find({ status: "cancelled" }).countDocuments(),
+//     pending: await OrdersModel.find({ status: "pending" }).countDocuments(),
+//   };
+
+//   try {
+//     let query = {};
+//     if (userId) {
+//       query = { user: userId }; // Filter by user if provided
+//     }
+//     if (status) {
+//       query.status = status; // Filter by status if provided
+//     }
+
+//     const orders = await OrdersModel.find(query).populate("user"); // Fetch the orders based on the query
+
+//     return new Response(
+//       JSON.stringify({
+//         error: false,
+//         msg: "Orders fetched successfully",
+//         orders,
+//         stats, // Return the calculated stats
+//       }),
+//       { status: 200 }
+//     );
+//   } catch (error) {
+//     console.error("Error fetching orders:", error);
+//     return new Response(
+//       JSON.stringify({
+//         error: true,
+//         msg: "Failed to fetch orders.",
+//       }),
+//       { status: 500 }
+//     );
+//   }
+// }
+
 export async function GET(req) {
   await connectDB();
 
   const { searchParams } = new URL(req.url);
-  const userId = searchParams.get("userId");
   const status = searchParams.get("status");
 
   const stats = {
-    delivered: await OrdersModel.find({ status: "delivered" }).countDocuments(),
-    cancelled: await OrdersModel.find({ status: "cancelled" }).countDocuments(),
-    pending: await OrdersModel.find({ status: "pending" }).countDocuments(),
+    delivered: await OrdersModel.countDocuments({ status: "delivered" }),
+    cancelled: await OrdersModel.countDocuments({ status: "cancelled" }),
+    pending: await OrdersModel.countDocuments({ status: "pending" }),
   };
 
   try {
     let query = {};
-    if (userId) {
-      query = { user: userId }; // Filter by user if provided
-    }
-    if (status) {
-      query.status = status; // Filter by status if provided
+    if (status && status !== 'all') {
+      query.status = status;
     }
 
-    const orders = await OrdersModel.find(query).populate("user"); // Fetch the orders based on the query
+    const orders = await OrdersModel.find(query).populate("user");
 
     return new Response(
       JSON.stringify({
         error: false,
         msg: "Orders fetched successfully",
         orders,
-        stats, // Return the calculated stats
+        stats,
       }),
       { status: 200 }
     );
@@ -201,6 +242,8 @@ export async function GET(req) {
     );
   }
 }
+
+
 
 
 // export async function PUT(req) {

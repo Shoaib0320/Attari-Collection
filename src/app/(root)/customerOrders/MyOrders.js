@@ -147,7 +147,7 @@ export default function MyOrders({ userId }) {
                             </span>
                         </div>
                         <p className="text-gray-700 mt-2">
-                            <strong>Customer:</strong> {order.user.firstName} {order.user.lastName}
+                            <strong>Customer:</strong> {order?.user?.firstName} {order?.user?.lastName}
                         </p>
                         <p className="text-gray-700 mt-1">
                             <strong>Phone:</strong> {order.number}
@@ -248,10 +248,10 @@ export default function MyOrders({ userId }) {
                             Order Details
                         </SheetTitle>
                     </SheetHeader>
-                    <div className="space-y-4">
-                        <p>
+                    <div className="space-y-4 py-5">
+                        {/* <p>
                             <strong>Order Number:</strong> {selectedOrder?.orderNumber}
-                        </p>
+                        </p> */}
                         <p>
                             <strong>Status:</strong> {selectedOrder?.status}
                         </p>
