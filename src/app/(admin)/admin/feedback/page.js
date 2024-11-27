@@ -377,14 +377,9 @@ import { DataTable } from "./datatable"
 import { Button } from "@/components/ui/button"
 import { FaCaretDown, FaCheck } from "react-icons/fa";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu"
-import { auth } from "@/app/auth"
 
-export default async function FeedbackPage() {
-
-  const session = await auth();
-  // Uncomment to enable redirection if not admin
-  if (!session || session?.user?.role !== "admin") redirect("/");
-
+export default function FeedbackPage() {
+  
   const [feedbacks, setFeedbacks] = useState([])
   const [filteredFeedbacks, setFilteredFeedbacks] = useState([])
   const [columns, setColumns] = useState(initialColumns)
