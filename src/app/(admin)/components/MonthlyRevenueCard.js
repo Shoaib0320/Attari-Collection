@@ -53,15 +53,26 @@ export default function MonthlyRevenueCard() {
         </Select>
       </CardHeader>
       <CardContent>
-        {isLoading ? (
-          <div className="text-center text-gray-400">Loading...</div>
+      {isLoading ? (
+          <div className="grid grid-cols-2 gap-4 py-3 animate-pulse">
+            {Array.from({ length: 4 }).map((_, index) => (
+              <div key={index} className="flex items-center space-x-2">
+                <div className="h-5 w-5 bg-gray-600 rounded-full"></div>
+                <div>
+                  <div className="w-24 h-3 bg-gray-600 rounded-md mb-2"></div>
+                  <div className="w-16 h-5 bg-gray-700 rounded-md"></div>
+                </div>
+              </div>
+            ))}
+          </div>
+
         ) : monthlyStats ? (
           <div className="grid grid-cols-2 gap-4 py-3">
             <div className="flex items-center space-x-2">
               <DollarSign className="h-5 w-5 text-indigo-400" />
               <div>
                 <p className="text-sm text-gray-400">Total Earning</p>
-                <p className="text-xl font-bold text-gray-100">${monthlyStats?.totalAmount?.toFixed(2)}</p>
+                <p className="text-xl font-bold text-gray-100">PKR: {monthlyStats.totalAmount.toFixed(2)}</p>
               </div>
             </div>
             <div className="flex items-center space-x-2">
