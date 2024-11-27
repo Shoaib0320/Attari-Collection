@@ -157,77 +157,36 @@ export async function POST(req) {
 // }
 
 
-// export async function GET(req) {
-//   await connectDB();
-
-//   const { searchParams } = new URL(req.url);
-//   const userId = searchParams.get("userId");
-//   const status = searchParams.get("status");
-
-//   const stats = {
-//     delivered: await OrdersModel.find({ status: "delivered" }).countDocuments(),
-//     cancelled: await OrdersModel.find({ status: "cancelled" }).countDocuments(),
-//     pending: await OrdersModel.find({ status: "pending" }).countDocuments(),
-//   };
-
-//   try {
-//     let query = {};
-//     if (userId) {
-//       query = { user: userId }; // Filter by user if provided
-//     }
-//     if (status) {
-//       query.status = status; // Filter by status if provided
-//     }
-
-//     const orders = await OrdersModel.find(query).populate("user"); // Fetch the orders based on the query
-
-//     return new Response(
-//       JSON.stringify({
-//         error: false,
-//         msg: "Orders fetched successfully",
-//         orders,
-//         stats, // Return the calculated stats
-//       }),
-//       { status: 200 }
-//     );
-//   } catch (error) {
-//     console.error("Error fetching orders:", error);
-//     return new Response(
-//       JSON.stringify({
-//         error: true,
-//         msg: "Failed to fetch orders.",
-//       }),
-//       { status: 500 }
-//     );
-//   }
-// }
-
 export async function GET(req) {
   await connectDB();
 
   const { searchParams } = new URL(req.url);
+  const userId = searchParams.get("userId");
   const status = searchParams.get("status");
 
   const stats = {
-    delivered: await OrdersModel.countDocuments({ status: "delivered" }),
-    cancelled: await OrdersModel.countDocuments({ status: "cancelled" }),
-    pending: await OrdersModel.countDocuments({ status: "pending" }),
+    delivered: await OrdersModel.find({ status: "delivered" }).countDocuments(),
+    cancelled: await OrdersModel.find({ status: "cancelled" }).countDocuments(),
+    pending: await OrdersModel.find({ status: "pending" }).countDocuments(),
   };
 
   try {
     let query = {};
-    if (status && status !== 'all') {
-      query.status = status;
+    if (userId) {
+      query = { user: userId }; // Filter by user if provided
+    }
+    if (status) {
+      query.status = status; // Filter by status if provided
     }
 
-    const orders = await OrdersModel.find(query).populate("user");
+    const orders = await OrdersModel.find(query).populate("user"); // Fetch the orders based on the query
 
     return new Response(
       JSON.stringify({
         error: false,
         msg: "Orders fetched successfully",
         orders,
-        stats,
+        stats, // Return the calculated stats
       }),
       { status: 200 }
     );
@@ -242,6 +201,126 @@ export async function GET(req) {
     );
   }
 }
+
+// export async function POST(req) {
+//   await connectDB();
+
+//   try {
+//     const orderData = await req.json();
+
+//     // Debugging: Log orderData
+//     console.log("Received Order Data:", orderData);
+
+//     // Validate user
+//     const user = await UserModel.findById(orderData.user);
+//     if (!user) {
+//       return new Response(
+//         JSON.stringify({
+//           error: true,
+//           msg: "User not found",
+//         }),
+//         { status: 400 }
+//       );
+//     }
+
+//     // Calculate totalAmount if not already provided
+//     if (!orderData.totalAmount) {
+//       orderData.totalAmount = orderData.items.reduce(
+//         (sum, item) => sum + item.price * item.quantity,
+//         0
+//       );
+//     }
+
+//     // Create new order
+//     // const newOrder = new OrdersModel(orderData);
+
+//     // Map incoming data to match the schema
+//     const newOrder = new OrdersModel({
+//       user: orderData.user,
+//       number: orderData.number,
+//       address: orderData.address,
+//       totalAmount: orderData.totalAmount, // Ensure this is passed
+//       items: orderData.items.map((item) => ({
+//         productId: item.productId,
+//         title: item.title,
+//         quantity: item.quantity,
+//         price: item.price,
+//         category: item.category,
+//         image: item.image, // Include image here
+//       })),
+//       date: new Date(orderData.date),
+//     });
+
+//     // Debugging: Log the order object before saving
+//     console.log("Order to Save:", newOrder);
+
+//     // Save order to database
+//     await newOrder.save();
+
+//     // Debugging: Log successful save
+//     console.log("Order saved successfully:", newOrder);
+
+//     return new Response(
+//       JSON.stringify({
+//         error: false,
+//         msg: "Order placed successfully!",
+//         order: newOrder,
+//       }),
+//       { status: 201 }
+//     );
+//   } catch (error) {
+//     console.error("Error during order creation:", error);
+//     return new Response(
+//       JSON.stringify({
+//         error: true,
+//         msg: "Failed to place order.",
+//       }),
+//       { status: 400 }
+//     );
+//   }
+// }
+
+
+// export async function GET(req) {
+//   await connectDB();
+
+//   const { searchParams } = new URL(req.url);
+//   const status = searchParams.get("status");
+
+//   const stats = {
+//     delivered: await OrdersModel.countDocuments({ status: "delivered" }),
+//     cancelled: await OrdersModel.countDocuments({ status: "cancelled" }),
+//     pending: await OrdersModel.countDocuments({ status: "pending" }),
+//   };
+
+//   try {
+//     let query = {};
+//     if (status && status !== 'all') {
+//       query.status = status;
+//     }
+
+//     const orders = await OrdersModel.find(query).populate("user");
+
+//     return new Response(
+//       JSON.stringify({
+//         error: false,
+//         msg: "Orders fetched successfully",
+//         orders,
+//         stats,
+//       }),
+//       { status: 200 }
+//     );
+//   } catch (error) {
+//     console.error("Error fetching orders:", error);
+//     return new Response(
+//       JSON.stringify({
+//         error: true,
+//         msg: "Failed to fetch orders.",
+//       }),
+//       { status: 500 }
+//     );
+//   }
+// }
 
 
 

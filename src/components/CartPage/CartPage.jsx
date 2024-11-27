@@ -435,8 +435,6 @@ export default function Component({ userId = '123' }) {
     }
   };
 
-  // ...
-
   const handleCheckout = async (e) => {
     e.preventDefault()
     setOrderLoading(true)
@@ -446,6 +444,7 @@ export default function Component({ userId = '123' }) {
       user: userId,
       number: phoneNumber,
       address,
+      totalAmount: totalPrice,
       date: Date.now(),
       items: cartItems.map((item) => ({
         productId: item._id,
@@ -459,6 +458,7 @@ export default function Component({ userId = '123' }) {
 
     try {
       const response = await fetch('/api/orders', {
+        cache : 'no-cache',
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(orderData),
@@ -474,6 +474,7 @@ export default function Component({ userId = '123' }) {
 
       setOrderSuccess(true)
       setCartItems([])
+      console.log("orderData =>", orderData)
     } catch (err) {
       setOrderError(err.message || 'Something went wrong')
     } finally {
@@ -661,14 +662,6 @@ export default function Component({ userId = '123' }) {
                       </div>
                       <div>
                         <h3 className="font-semibold mb-2">Order Summary</h3>
-                        {/* <ul className="space-y-2">
-                          {cartItems.map((item) => (
-                            <li key={item._id} className="flex justify-between text-sm">
-                              <span>{item.title} (x{item.quantity})</span>
-                              <span>PKR {(item.price * item.quantity).toFixed(2)}</span>
-                            </li>
-                          ))}
-                        </ul> */}
                         <div className="mt-2 pt-2 border-t border-gray-200 font-bold flex justify-between">
                           <span>Total:</span>
                           <span>PKR {totalPrice.toFixed(2)}</span>

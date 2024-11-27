@@ -34,12 +34,13 @@ function DetailSheet({ order }) {
           <p>Status: {order.status}</p>
           <p>Address: {order.address}</p>
           <p>Phone: {order.number}</p>
+          <h1>Total Amount : PKR: {order.totalAmount}</h1>
           <h4 className="font-bold mt-4">Products:</h4>
           <ul>
             {order.items.map((item, index) => (
               <div className="bg-gray-300 text-black my-3 p-3" key={index}>
                 <div className="flex justify-between items-center gap-2">
-                  <img src={item.imageUrl} alt={item.title} className="w-20 h-20 rounded-full"/>
+                  <img src={item.image} alt={item.title} className="w-20 h-20 rounded-full"/>
                     {item.title} - Quantity: {item.quantity} - Price: PKR {item.price}
                 </div>
               </div>

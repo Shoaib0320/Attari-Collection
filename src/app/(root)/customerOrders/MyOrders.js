@@ -271,11 +271,11 @@ export default function MyOrders({ userId }) {
                                         className="flex flex-col items-center bg-white p-4 rounded-lg shadow-md"
                                     >
                                         <img
-                                            src={item.imageUrl || '/placeholder.png'}
+                                            src={item.image || '/placeholder.png'}
                                             alt={item.title}
-                                            className="w-20 h-20 rounded-lg object-cover"
+                                            className="w-full rounded-lg object-cover"
                                         />
-                                        <div>
+                                        <div className='mt-2'>
                                             <p className="font-semibold">{item.title}</p>
                                             <p>Qty: {item.quantity}</p>
                                             <p>PKR {item.price}</p>
@@ -285,7 +285,7 @@ export default function MyOrders({ userId }) {
                             </ul>
                         </div>
                         <p className="mt-4">
-                            <strong>Total:</strong> ${selectedOrder?.totalPrice}
+                            <strong>Total:</strong> PKR: {selectedOrder?.totalAmount}
                         </p>
                     </div>
                 </SheetContent>
