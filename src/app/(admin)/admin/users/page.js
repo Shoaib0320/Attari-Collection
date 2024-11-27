@@ -4,8 +4,14 @@ import { Suspense } from 'react';
 import { connectDB } from "@/lib/db/connectDB";
 import { UserModel } from "@/lib/models/User";
 import UsersClient from './userClient';
+import { auth } from '@/app/auth';
 
 export default async function UsersPage() {
+
+  const session = await auth();
+  // Uncomment to enable redirection if not admin
+  if (!session || session?.user?.role !== "admin") redirect("/");
+
   try {
     await connectDB();
 

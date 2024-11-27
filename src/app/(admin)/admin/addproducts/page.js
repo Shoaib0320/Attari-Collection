@@ -22,8 +22,14 @@ import AddCategory from "./addCategory/page";
 import CategoryTable from "@/components/CategoryTable/CategoryTable";
 import { fetchCategories, deleteCategory } from "@/actions/addCategoryActions";
 import TableSkeleton from "@/components/TableSkeleton/TableSkeleton";
+import { auth } from "@/app/auth";
 
-const AddProductsPage = () => {
+const AddProductsPage = async () => {
+
+  const session = await auth();
+  // Uncomment to enable redirection if not admin
+  if (!session || session?.user?.role !== "admin") redirect("/");
+
   const [products, setProducts] = useState([]); // Initialized as an empty array
   const [categories, setCategories] = useState([]);
   const [formData, setFormData] = useState({

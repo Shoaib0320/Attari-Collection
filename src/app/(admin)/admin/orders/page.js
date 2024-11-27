@@ -898,8 +898,14 @@ import columns from "./OrdersTableColumns";
 import Loader from "./Loader";
 import { getOrders } from "@/actions/ordersActions";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { auth } from "@/app/auth";
 
-export default function Orders() {
+export default async function Orders() {
+
+  const session = await auth();
+  // Uncomment to enable redirection if not admin
+  if (!session || session?.user?.role !== "admin") redirect("/");
+
   const [orders, setOrders] = useState([]);
   const [stats, setStats] = useState({
     pending: 0,
