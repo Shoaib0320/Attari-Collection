@@ -386,7 +386,6 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Button } from "@/components/ui/button"; // Assuming you're using a button component for "View Details"
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from "@/components/ui/sheet"; // ShadCN UI Sheet components
-import Image from "next/image"; // Import Image component from Next.js
 
 export default function RecentOrders() {
   const [orders, setOrders] = useState([]);
