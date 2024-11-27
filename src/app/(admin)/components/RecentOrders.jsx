@@ -376,6 +376,7 @@
 
 
 
+// // // // @/app/(admin)/components/RecentOrders.js
 
 
 "use client";
@@ -511,7 +512,7 @@ export default function RecentOrders() {
                   <TableCell>
                     <Sheet>
                       <SheetTrigger asChild>
-                        <Button className='bg-gray-300 hover:bg-gray-700 text-black hover:text-white' onClick={() => handleViewDetails(order)}>View Details</Button>
+                        <Button className="bg-gray-300 hover:bg-gray-700 text-black hover:text-white" onClick={() => handleViewDetails(order)}>View Details</Button>
                       </SheetTrigger>
                       {selectedOrder && (
                         <SheetContent className="sm:max-w-[500px] overflow-y-auto">

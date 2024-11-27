@@ -34,7 +34,7 @@ export default async function Admin() {
     <div className="min-h-screen bg-gradient-to-r from-gray-900 to-gray-800 text-gray-100">
       <div className="p-8 space-y-8">
         {/* Header Section */}
-        <h1 className="text-4xl font-extrabold text-center bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 text-transparent bg-clip-text">
+        <h1 className="text-4xl font-extrabold text-center bg-gray-300 text-transparent bg-clip-text">
           Admin Dashboard
         </h1>
 
