@@ -4,11 +4,12 @@ Stakeholders
 
 Admin Functionalities
 1.Categories CRUD
-2.SubCategories CRUD
-3.Can See all Events
-4.Can See all Communities
+2.Can See all StoreFeedbacks
+3.Can See all Products
+4.Can See all Feedbacks
 5.Can see all Users
-6.See analytics of the App
+6.See analytics of the Orders
+7.Products CRUD
 
 User Functionalities / Web and App
 1.Sign up , Login 

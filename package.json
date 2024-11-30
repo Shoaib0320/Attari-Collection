@@ -33,6 +33,7 @@
     "class-variance-authority": "^0.7.0",
     "cloudinary": "^2.5.1",
     "clsx": "^2.1.1",
+    "cors": "^2.8.5",
     "lucide-react": "^0.453.0",
     "mongoose": "^8.7.2",
     "next": "14.2.15",
