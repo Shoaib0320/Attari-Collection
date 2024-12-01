@@ -58,32 +58,61 @@ export async function GET(request) {
   }
 }
 
+// export async function DELETE(request) {
+//   try {
+//     await connectDB()
+
+//     const session = await auth()
+//     if (!session) {
+//       return NextResponse.json({ success: false, message: "User not authenticated" }, { status: 401 })
+//     }
+
+//     const { searchParams } = new URL(request.url)
+//     const itemId = searchParams.get('itemId')
+
+//     if (!itemId) {
+//       return NextResponse.json({ success: false, message: "Item ID is required" }, { status: 400 })
+//     }
+
+//     const userId = session.user._id
+//     const result = await CartModel.deleteOne({ _id: itemId, user: userId })
+
+//     if (result.deletedCount === 0) {
+//       return NextResponse.json({ success: false, message: "Item not found or not authorized to delete" }, { status: 404 })
+//     }
+
+//     return NextResponse.json({ success: true, message: "Item deleted successfully" })
+//   } catch (error) {
+//     console.error('Error in DELETE /api/cart:', error)
+//     return NextResponse.json({ success: false, message: error.message || 'Internal server error' }, { status: 500 })
+//   }
+// }
+
 export async function DELETE(request) {
   try {
-    await connectDB()
+    await connectDB();
 
-    const session = await auth()
+    const session = await auth();
     if (!session) {
-      return NextResponse.json({ success: false, message: "User not authenticated" }, { status: 401 })
+      return NextResponse.json({ success: false, message: "User not authenticated" }, { status: 401 });
     }
 
-    const { searchParams } = new URL(request.url)
-    const itemId = searchParams.get('itemId')
+    const { searchParams } = new URL(request.url);
+    const userId = searchParams.get('userId');
 
-    if (!itemId) {
-      return NextResponse.json({ success: false, message: "Item ID is required" }, { status: 400 })
+    if (!userId) {
+      return NextResponse.json({ success: false, message: "User ID is required" }, { status: 400 });
     }
 
-    const userId = session.user._id
-    const result = await CartModel.deleteOne({ _id: itemId, user: userId })
+    const result = await CartModel.deleteMany({ user: userId });
 
     if (result.deletedCount === 0) {
-      return NextResponse.json({ success: false, message: "Item not found or not authorized to delete" }, { status: 404 })
+      return NextResponse.json({ success: false, message: "No cart items found for the user" }, { status: 404 });
     }
 
-    return NextResponse.json({ success: true, message: "Item deleted successfully" })
+    return NextResponse.json({ success: true, message: "cart item deleted successfully" });
   } catch (error) {
-    console.error('Error in DELETE /api/cart:', error)
-    return NextResponse.json({ success: false, message: error.message || 'Internal server error' }, { status: 500 })
+    console.error('Error in DELETE /api/cart:', error);
+    return NextResponse.json({ success: false, message: error.message || 'Internal server error' }, { status: 500 });
   }
 }

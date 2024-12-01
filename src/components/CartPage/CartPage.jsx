@@ -74,10 +74,57 @@ export default function Component({ userId = '123' }) {
     }
   };
 
+  // const handleCheckout = async (e) => {
+  //   e.preventDefault()
+  //   setOrderLoading(true)
+  //   setOrderError(null)
+
+  //   const orderData = {
+  //     user: userId,
+  //     number: phoneNumber,
+  //     address,
+  //     totalAmount: totalPrice,
+  //     date: Date.now(),
+  //     items: cartItems.map((item) => ({
+  //       productId: item._id,
+  //       quantity: item.quantity,
+  //       price: item.price,
+  //       title: item.title,
+  //       category: item.category,
+  //       image: item.imageUrl, // Include the image URL in the order data
+  //     })),
+  //   }
+
+  //   try {
+  //     const response = await fetch('/api/orders', {
+  //       cache : 'no-cache',
+  //       method: 'POST',
+  //       headers: { 'Content-Type': 'application/json' },
+  //       body: JSON.stringify(orderData),
+  //     })
+
+  //     const result = await response.json()
+  //     if (!response.ok) throw new Error(result.msg)
+
+  //     // Clear the cart from MongoDB after successful order placement
+  //     await fetch(`/api/addToCart?userId=${userId}`, {
+  //       method: 'DELETE',
+  //     })
+
+  //     setOrderSuccess(true)
+  //     setCartItems([])
+  //     console.log("orderData =>", orderData)
+  //   } catch (err) {
+  //     setOrderError(err.message || 'Something went wrong')
+  //   } finally {
+  //     setOrderLoading(false)
+  //   }
+  // }
+
   const handleCheckout = async (e) => {
-    e.preventDefault()
-    setOrderLoading(true)
-    setOrderError(null)
+    e.preventDefault();
+    setOrderLoading(true);
+    setOrderError(null);
 
     const orderData = {
       user: userId,
@@ -93,33 +140,31 @@ export default function Component({ userId = '123' }) {
         category: item.category,
         image: item.imageUrl, // Include the image URL in the order data
       })),
-    }
+    };
 
     try {
       const response = await fetch('/api/orders', {
-        cache : 'no-cache',
+        cache: 'no-cache',
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(orderData),
-      })
+      });
 
-      const result = await response.json()
-      if (!response.ok) throw new Error(result.msg)
+      const result = await response.json();
+      if (!response.ok) throw new Error(result.msg);
 
-      // Clear the cart from MongoDB after successful order placement
-      await fetch(`/api/addToCart?userId=${userId}`, {
-        method: 'DELETE',
-      })
+      // Clear the cart after successful order placement
+      await handleAllCartDelete(userId);
 
-      setOrderSuccess(true)
-      setCartItems([])
-      console.log("orderData =>", orderData)
+      setOrderSuccess(true);
+      setCartItems([]);
+      console.log("orderData =>", orderData);
     } catch (err) {
-      setOrderError(err.message || 'Something went wrong')
+      setOrderError(err.message || 'Something went wrong');
     } finally {
-      setOrderLoading(false)
+      setOrderLoading(false);
     }
-  }
+  };
 
   const totalPrice = cartItems.reduce((total, item) => total + item.price * item.quantity, 0)
   const totalItems = cartItems.reduce((total, item) => total + item.quantity, 0)
@@ -357,11 +402,22 @@ function CartSkeleton() {
 }
 
 
+// Function to delete all cart items for a given user
+async function handleAllCartDelete(userId) {
+  try {
+    const response = await fetch(`/api/addToCart?userId=${userId}`, {
+      method: 'DELETE',
+    });
 
+    const result = await response.json();
 
-
-
-
-
-
-
+    if (result.success) {
+      // Handle successful deletion, e.g., display a success message
+      console.log('All cart items deleted successfully.');
+    } else {
+      console.error('Error deleting cart items:', result.message);
+    }
+  } catch (error) {
+    console.error('Error deleting cart items:', error);
+  }
+}
