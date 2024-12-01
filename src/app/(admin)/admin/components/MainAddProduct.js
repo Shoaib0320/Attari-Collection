@@ -145,7 +145,7 @@ const AddProductsPage = () => {
 
   return (
     <div>
-      <div className=" my-20">
+      <div className="my-10">
         <div className="flex items-start justify-between mx-10">
           <AddCategory />
           <Dialog open={isProductDialogOpen} onOpenChange={setProductDialogOpen}>
