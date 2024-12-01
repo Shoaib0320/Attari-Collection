@@ -141,76 +141,77 @@ const AddProductsPage = () => {
     });
     setProductDialogOpen(true);
   };
-  
+
 
   return (
     <div>
-      <div className="flex items-start justify-between my-20">
-        <AddCategory />
-        <Dialog open={isProductDialogOpen} onOpenChange={setProductDialogOpen}>
-          <DialogTrigger asChild>
-            <Button className="bg-gray-700 text-white hover:text-black hover:bg-gray-300">Add Product</Button>
-          </DialogTrigger>
-          <DialogContent>
-            <DialogHeader>
-              <DialogTitle>{editingProduct ? "Edit Product" : "Add Product"}</DialogTitle>
-            </DialogHeader>
-            <Form onSubmit={handleSubmit} className="space-y-4">
-              <Input
-                placeholder="Title"
-                name="title"
-                value={formData.title}
-                onChange={handleChange}
-                required
-              />
-              <Input
-                placeholder="Description"
-                name="description"
-                value={formData.description}
-                onChange={handleChange}
-                required
-              />
-              <select
-                name="category"
-                value={formData.category}
-                onChange={handleChange}
-                required
-                className="w-full p-2 border rounded"
-              >
-                <option value="">Select Category</option>
-                {categories.length > 0 ? (
-                  categories.map((category) => (
-                    <option key={category._id} value={category._id}>
-                      {category.title}
-                    </option>
-                  ))
-                ) : (
-                  <option value="" disabled>No available categories</option>
-                )}
-              </select>
-              <Input
-                type="number"
-                placeholder="Price"
-                name="price"
-                value={formData.price}
-                onChange={handleChange}
-                required
-              />
-              <Input
-                placeholder="Image URL"
-                name="imageUrl"
-                value={formData.imageUrl}
-                onChange={handleChange}
-                required
-              />
-              <DialogFooter>
-                <Button onClick={handleSubmit} type="submit" className="bg-green-600 text-white">
-                  {editingProduct ? "Update Product" : "Add Product"}
-                </Button>
-              </DialogFooter>
-            </Form>
-          </DialogContent>
-        </Dialog>
+      <div className=" my-20">
+        <div className="flex items-start justify-between mx-10">
+          <AddCategory />
+          <Dialog open={isProductDialogOpen} onOpenChange={setProductDialogOpen}>
+            <DialogTrigger asChild>
+              <Button className="bg-gray-700 text-white hover:text-black hover:bg-gray-300">Add Product</Button>
+            </DialogTrigger>
+            <DialogContent>
+              <DialogHeader>
+                <DialogTitle>{editingProduct ? "Edit Product" : "Add Product"}</DialogTitle>
+              </DialogHeader>
+              <Form onSubmit={handleSubmit} className="space-y-4">
+                <Input
+                  placeholder="Title"
+                  name="title"
+                  value={formData.title}
+                  onChange={handleChange}
+                  required
+                />
+                <Input
+                  placeholder="Description"
+                  name="description"
+                  value={formData.description}
+                  onChange={handleChange}
+                  required
+                />
+                <select
+                  name="category"
+                  value={formData.category}
+                  onChange={handleChange}
+                  required
+                  className="w-full p-2 border rounded"
+                >
+                  <option value="">Select Category</option>
+                  {categories.length > 0 ? (
+                    categories.map((category) => (
+                      <option key={category._id} value={category._id}>
+                        {category.title}
+                      </option>
+                    ))
+                  ) : (
+                    <option value="" disabled>No available categories</option>
+                  )}
+                </select>
+                <Input
+                  placeholder="Price"
+                  name="price"
+                  value={formData.price}
+                  onChange={handleChange}
+                  required
+                />
+                <Input
+                  placeholder="Image URL"
+                  name="imageUrl"
+                  value={formData.imageUrl}
+                  onChange={handleChange}
+                  required
+                />
+                <DialogFooter>
+                  <Button onClick={handleSubmit} type="submit" className="bg-green-600 text-white">
+                    {editingProduct ? "Update Product" : "Add Product"}
+                  </Button>
+                </DialogFooter>
+              </Form>
+            </DialogContent>
+          </Dialog>
+        </div>
       </div>
 
       {/* Loader component is displayed when loading is true */}
@@ -218,7 +219,7 @@ const AddProductsPage = () => {
         <TableSkeleton /> // Show loader when the loading state is true
       ) : (
         <>
-        <CategoryTable />
+          <CategoryTable />
           <ProductsTable
             products={products}
             onEditProduct={handleEdit}

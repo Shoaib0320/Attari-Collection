@@ -59,7 +59,7 @@ const AddCategory = ({ categoryToEdit }) => {
     <div>
       <Dialog open={open} onOpenChange={setOpen}>
         <DialogTrigger asChild>
-          <Button className="bg-indigo-600 text-white">
+          <Button className="bg-gray-300 text-black hover:bg-gray-700 hover:text-white">
             {newCategory._id ? "Edit Category" : "Add Category"}
           </Button>
         </DialogTrigger>
