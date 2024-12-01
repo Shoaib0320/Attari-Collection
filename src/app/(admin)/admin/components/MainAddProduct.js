@@ -149,7 +149,7 @@ const AddProductsPage = () => {
         <AddCategory />
         <Dialog open={isProductDialogOpen} onOpenChange={setProductDialogOpen}>
           <DialogTrigger asChild>
-            <Button className="bg-green-600 text-white">Add Product</Button>
+            <Button className="bg-gray-700 text-white hover:text-black hover:bg-gray-300">Add Product</Button>
           </DialogTrigger>
           <DialogContent>
             <DialogHeader>
