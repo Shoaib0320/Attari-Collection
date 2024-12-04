@@ -14,7 +14,6 @@ export default function HeroSection() {
             <p className="mb-8 leading-relaxed text-base sm:text-lg md:text-xl lg:text-lg xl:text-xl">
               Discover the latest trends and unbeatable deals at Attari Collection! From fashion-forward apparel to cutting-edge gadgets, we bring you a curated selection of premium products at prices you’ll love. Shop with confidence and enjoy fast shipping, easy returns, and 24/7 customer support. Elevate your style, upgrade your lifestyle, and experience shopping redefined. **Shop Now & Transform Your Wardrobe Today!**
             </p>
-            <SignIn />
           </div>
           <div className="lg:max-w-lg lg:w-full md:w-1/2 w-full flex justify-center md:justify-end mb-10 md:mb-0">
             <Image

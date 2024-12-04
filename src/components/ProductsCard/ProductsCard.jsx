@@ -97,15 +97,6 @@ export default function ProductsCard() {
     );
   }
 
-  // if (error) {
-  //   return (
-  //     <div>
-  //       <p className="flex justify-center items-center">Error fetching products: {error}</p>
-  //       <Button className="flex justify-center items-center mx-auto my-10" >Retry</Button>
-  //     </div>
-  //   );
-  // }
-
 
   if (error) {
     return (
