@@ -207,7 +207,7 @@ export default function About() {
                     <h3 className="text-lg font-semibold text-gray-800 mt-4">
                       {feedback?.userId?.firstName} {feedback?.userId?.lastName}
                     </h3>
-                    <p className="text-gray-600 text-sm mt-2">"{feedback.feedback}"</p>
+                    <p className="text-gray-600 text-sm mt-2">{feedback.feedback}</p>
                   </div>
                 </div>
               ))
