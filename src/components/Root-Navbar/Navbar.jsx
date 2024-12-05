@@ -267,7 +267,7 @@ export default async function Navbar({ session }) {
                     </MenuItem>
                     <MenuItem>
                       <Link href="#" className="block px-4 py-2 text-sm text-gray-700">
-                        {session?.user?.email}
+                        {session?.user?.email.slice(0,20)}
                       </Link>
                     </MenuItem>
                     <MenuItem>

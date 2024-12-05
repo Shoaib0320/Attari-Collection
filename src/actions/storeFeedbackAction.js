@@ -7,7 +7,7 @@ import { StoreFeedbackModal } from "@/lib/models/StoreFeedback"
 export async function getStoreFeedbacks() {
   try {
     await connectDB()
-    const feedbacks = await StoreFeedbackModal.find().populate("userId", "firstName email").lean()
+    const feedbacks = await StoreFeedbackModal.find().populate("userId", "firstName lastName picture email").lean()
     return JSON.parse(JSON.stringify(feedbacks))
   } catch (error) {
     console.error("Error fetching feedbacks:", error)
