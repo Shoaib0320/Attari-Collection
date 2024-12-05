@@ -206,7 +206,7 @@ const FeedbackSlider = ({ storeFeedbacks }) => {
                                     {feedback.userId.email}
                                 </p>
                                 <p className="mt-4 text-lg font-light italic">
-                                    "{feedback.feedback}"
+                                    {feedback.feedback}
                                 </p>
                                 <p className="text-gray-400 text-sm mt-3">
                                     Added on:{" "}
