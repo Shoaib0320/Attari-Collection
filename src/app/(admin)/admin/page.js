@@ -43,9 +43,12 @@ export default async function Admin() {
           <Dashboard />
           <br />
         </div>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {/* <RecentOrders /> */}
+        <div>
+
+        </div>
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-1 gap-8">
           <TopProducts />
+          {/* <RecentOrders /> */}
           <div className="lg:col-span-3">
             <SalesSummary />
           </div>

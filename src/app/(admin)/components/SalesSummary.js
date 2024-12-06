@@ -1,68 +1,17 @@
-// // "use client";
-
-// // import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-// // import { ResponsiveContainer, LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend } from "recharts";
-
-// // export default function SalesSummary() {
-// //   const data = [
-// //     { name: "Jan", sales: 4000, revenue: 2400 },
-// //     { name: "Feb", sales: 3000, revenue: 1398 },
-// //     { name: "Mar", sales: 2000, revenue: 9800 },
-// //     { name: "Apr", sales: 2780, revenue: 3908 },
-// //     { name: "May", sales: 1890, revenue: 4800 },
-// //     { name: "Jun", sales: 2390, revenue: 3800 },
-// //     { name: "Jul", sales: 3490, revenue: 4300 },
-// //     { name: "Aug", sales: 4000, revenue: 2400 },
-// //     { name: "Sep", sales: 3000, revenue: 1398 },
-// //     { name: "Oct", sales: 2000, revenue: 19800 },
-// //     { name: "Nov", sales: 2780, revenue: 3908 },
-// //     { name: "Dec", sales: 1890, revenue: 4800 },
-// //   ];
-
-// //   return (
-// //     <Card className="bg-gradient-to-r from-indigo-900 via-purple-800 to-indigo-900 shadow-xl hover:shadow-2xl">
-// //       <CardHeader>
-// //         <CardTitle className="text-gray-100">Sales Summary</CardTitle>
-// //       </CardHeader>
-// //       <CardContent>
-// //         <ResponsiveContainer width="100%" height={300}>
-// //           <LineChart
-// //             data={data}
-// //             margin={{
-// //               top: 5,
-// //               right: 30,
-// //               left: 20,
-// //               bottom: 5,
-// //             }}
-// //           >
-// //             <CartesianGrid strokeDasharray="3 3" stroke="#444" />
-// //             <XAxis dataKey="name" stroke="#ddd" />
-// //             <YAxis stroke="#ddd" />
-// //             <Tooltip />
-// //             <Legend />
-// //             <Line type="monotone" dataKey="sales" stroke="#82ca9d" activeDot={{ r: 8 }} />
-// //             <Line type="monotone" dataKey="revenue" stroke="#8884d8" />
-// //           </LineChart>
-// //         </ResponsiveContainer>
-// //       </CardContent>
-// //     </Card>
-// //   );
-// // }
-
-
-
-
-
-
-
-
-
-
 // 'use client'
 
 // import { useEffect, useState } from 'react'
 // import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-// import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from "recharts"
+// import {
+//   LineChart,
+//   Line,
+//   XAxis,
+//   YAxis,
+//   CartesianGrid,
+//   Tooltip,
+//   Legend,
+//   ResponsiveContainer,
+// } from "recharts"
 // import { ChartContainer, ChartTooltip, ChartTooltipContent } from "@/components/ui/chart"
 // import { getOrdersByMonth } from '@/actions/getOrdersByMonth'
 
@@ -90,7 +39,7 @@
 //               color: "hsl(var(--chart-1))",
 //             },
 //           }}
-//           className="h-[300px]"
+//           className="min-h-[250px] sm:h-[300px] lg:h-[400px] xl:h-[500px]" // Adjust height based on screen size
 //         >
 //           <ResponsiveContainer width="100%" height="100%">
 //             <LineChart data={data}>
@@ -112,10 +61,6 @@
 //     </Card>
 //   )
 // }
-
-
-
-
 
 
 'use client'
@@ -147,37 +92,65 @@ export default function OrderSummary() {
   }, [])
 
   return (
-    <Card className="w-full">
-      <CardHeader>
-        <CardTitle>Order Summary</CardTitle>
-      </CardHeader>
-      <CardContent>
-        <ChartContainer
-          config={{
-            orders: {
-              label: "Orders",
-              color: "hsl(var(--chart-1))",
-            },
-          }}
-          className="min-h-[250px] sm:h-[300px] lg:h-[400px] xl:h-[500px]" // Adjust height based on screen size
-        >
-          <ResponsiveContainer width="100%" height="100%">
-            <LineChart data={data}>
-              <CartesianGrid strokeDasharray="3 3" />
-              <XAxis dataKey="name" />
-              <YAxis />
-              <ChartTooltip content={<ChartTooltipContent />} />
-              <Legend />
-              <Line
-                type="monotone"
-                dataKey="orders"
-                stroke="var(--color-orders)"
-                activeDot={{ r: 8 }}
-              />
-            </LineChart>
-          </ResponsiveContainer>
-        </ChartContainer>
-      </CardContent>
-    </Card>
+    <div className="w-full p-4 bg-gradient-to-br from-purple-100 to-indigo-100 dark:from-gray-900 dark:to-gray-800 rounded-xl shadow-xl">
+      <Card className="w-full bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm border-none shadow-lg">
+        <CardHeader className="pb-2">
+          <CardTitle className="text-2xl font-bold text-purple-800 dark:text-purple-300">Order Summary</CardTitle>
+        </CardHeader>
+        <CardContent>
+          <ChartContainer
+            config={{
+              orders: {
+                label: "Orders",
+                color: "hsl(var(--chart-1))",
+              },
+            }}
+            className="min-h-[250px] sm:h-[300px] lg:h-[400px] xl:h-[500px]"
+          >
+            <ResponsiveContainer width="100%" height="100%">
+              <LineChart data={data}>
+                <defs>
+                  <linearGradient id="colorOrders" x1="0" y1="0" x2="0" y2="1">
+                    <stop offset="5%" stopColor="#8884d8" stopOpacity={0.8}/>
+                    <stop offset="95%" stopColor="#8884d8" stopOpacity={0}/>
+                  </linearGradient>
+                </defs>
+                <CartesianGrid strokeDasharray="3 3" className="opacity-30" />
+                <XAxis 
+                  dataKey="name" 
+                  stroke="#888" 
+                  fontSize={12}
+                  tickLine={false}
+                  axisLine={{ strokeWidth: 0 }}
+                />
+                <YAxis 
+                  stroke="#888" 
+                  fontSize={12}
+                  tickLine={false}
+                  axisLine={{ strokeWidth: 0 }}
+                  tickFormatter={(value) => `${value}`}
+                />
+                <ChartTooltip 
+                  content={<ChartTooltipContent />}
+                  wrapperClassName="bg-white/90 dark:bg-gray-800/90 shadow-md rounded-lg border border-gray-200 dark:border-gray-700 p-2"
+                />
+                <Legend wrapperStyle={{ paddingTop: '20px' }} />
+                <Line
+                  type="monotone"
+                  dataKey="orders"
+                  stroke="url(#colorOrders)"
+                  strokeWidth={3}
+                  dot={{ fill: '#8884d8', strokeWidth: 2, r: 6 }}
+                  activeDot={{ r: 8, strokeWidth: 2 }}
+                  fillOpacity={1}
+                  fill="url(#colorOrders)"
+                />
+              </LineChart>
+            </ResponsiveContainer>
+          </ChartContainer>
+        </CardContent>
+      </Card>
+    </div>
   )
 }
+

@@ -65,7 +65,7 @@ export default function Component({ userId = '123' }) {
         alert(result.message);
       } else {
         throw new Error(result.message || 'Failed to delete item');
-      }
+      }      
     } catch (err) {
       setError(err.message || 'Something went wrong');
     } finally {
