@@ -26,7 +26,7 @@ export default function MyOrders({ userId }) {
 
     useEffect(() => {
         if (userId) fetchUserOrders();
-    }, [userId]);    
+    }, [userId]);
 
     const fetchUserOrders = async () => {
         try {
@@ -155,35 +155,6 @@ export default function MyOrders({ userId }) {
                         <p className="text-gray-700 mt-1">
                             <strong>Address:</strong> {order.address}
                         </p>
-                        {/* <div className="mt-4 flex space-x-4 items-center justify-between">
-                            {order.status === 'delivered' && (
-                                <Button
-                                    onClick={() => handleFeedbackClick(order)}
-                                    className="bg-gray-300 text-black hover:bg-gray-700 hover:text-white"
-                                >
-                                    Leave Your Feedback
-                                </Button>
-                            )}
-                            <Button
-                                onClick={() => handleViewDetailsClick(order)}
-                                className="bg-gray-700 text-white hover:bg-gray-300 hover:text-black"
-                            >
-                                View Details
-                            </Button>
-                            {order.status === 'pending' && (
-                                <button
-                                    className={`text-red-500 hover:text-red-400 transition-colors disabled:opacity-50 flex items-center`}
-                                    onClick={() => handleDeleteOrder(order._id)}
-                                    disabled={loadingOrderId === order._id}
-                                >
-                                    {loadingOrderId === order._id ? (
-                                        <Loader2 className="h-5 w-5 animate-spin" />
-                                    ) : (
-                                        <Trash2 className="h-5 w-5" />
-                                    )}
-                                </button>
-                            )}
-                        </div> */}
                         <div className="mt-4 flex flex-wrap gap-2 items-center justify-between">
                             {order.status === 'delivered' && (
                                 <Button
@@ -249,14 +220,14 @@ export default function MyOrders({ userId }) {
                         </SheetTitle>
                     </SheetHeader>
                     <div className="space-y-4 py-5">
-                        {/* <p>
-                            <strong>Order Number:</strong> {selectedOrder?.orderNumber}
-                        </p> */}
                         <p>
                             <strong>Status:</strong> {selectedOrder?.status}
                         </p>
                         <p>
                             <strong>Customer:</strong> {selectedOrder?.user.firstName} {selectedOrder?.user.lastName}
+                        </p>
+                        <p>
+                            <strong>Date: </strong>{new Date(selectedOrder?.createdAt).toLocaleString()}
                         </p>
                         <p>
                             <strong>Phone:</strong> {selectedOrder?.number}
@@ -293,3 +264,7 @@ export default function MyOrders({ userId }) {
         </div>
     );
 }
+
+
+
+

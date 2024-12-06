@@ -1,5 +1,4 @@
 import Image from "next/image";
-import SignIn from "../Sign-in/Sign-in";
 
 export default function HeroSection() {
     return (

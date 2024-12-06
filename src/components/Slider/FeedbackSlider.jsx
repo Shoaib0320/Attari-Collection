@@ -19,9 +19,7 @@ const FeedbackSlider = ({ productFeedbacks }) => {
 
     // Check if feedback exists
     if (!productFeedbacks || productFeedbacks.length === 0) {
-        return (
-           ''
-        );
+        return '';
     }
 
     return (
@@ -71,14 +69,14 @@ const FeedbackSlider = ({ productFeedbacks }) => {
                 {/* Navigation Buttons */}
                 <button
                     onClick={handlePreviousFeedback}
-                    className="absolute left-0 top-1/2 transform -translate-y-1/2 text-white bg-gray-700 hover:text-gray-700 hover:bg-gray-300 text-3xl p-3 rounded-full focus:outline-none shadow-lg hover:shadow-2xl transition-all"
+                    className="absolute left-0 top-1/2 transform -translate-y-1/2 text-white bg-gray-700 hover:text-gray-700 hover:bg-gray-300 p-3 rounded-full focus:outline-none shadow-lg hover:shadow-2xl transition-all md:text-2xl md:p-2"
                     style={{ marginLeft: "10px" }}
                 >
                     <FaLessThan />
                 </button>
                 <button
                     onClick={handleNextFeedback}
-                    className="absolute right-0 top-1/2 transform -translate-y-1/2 text-white bg-gray-700 hover:text-gray-700 hover:bg-gray-300 text-3xl p-3 rounded-full focus:outline-none shadow-lg hover:shadow-2xl transition-all "
+                    className="absolute right-0 top-1/2 transform -translate-y-1/2 text-white bg-gray-700 hover:text-gray-700 hover:bg-gray-300 p-3 rounded-full focus:outline-none shadow-lg hover:shadow-2xl transition-all md:text-2xl md:p-2"
                     style={{ marginRight: "10px" }}
                 >
                     <FaGreaterThan />
@@ -89,3 +87,4 @@ const FeedbackSlider = ({ productFeedbacks }) => {
 };
 
 export default FeedbackSlider;
+

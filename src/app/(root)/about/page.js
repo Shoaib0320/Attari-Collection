@@ -1,6 +1,7 @@
 'use client'
 
 import { getStoreFeedbacks } from "@/actions/storeFeedbackAction";
+import Footer from "@/components/Footer/Footer";
 import { useEffect, useState } from "react";
 
 export default function About() {
@@ -169,6 +170,10 @@ export default function About() {
             </span>
           </button>
         </div>
+      </div>
+
+      <div className="mt-10">
+        <Footer />
       </div>
     </div>
   );

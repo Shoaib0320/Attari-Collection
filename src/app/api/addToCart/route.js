@@ -88,6 +88,36 @@ export async function GET(request) {
 //   }
 // }
 
+// export async function DELETE(request) {
+//   try {
+//     await connectDB();
+
+//     const session = await auth();
+//     if (!session) {
+//       return NextResponse.json({ success: false, message: "User not authenticated" }, { status: 401 });
+//     }
+
+//     const { searchParams } = new URL(request.url);
+//     const userId = searchParams.get('userId');
+
+//     if (!userId) {
+//       return NextResponse.json({ success: false, message: "User ID is required" }, { status: 400 });
+//     }
+
+//     const result = await CartModel.deleteMany({ user: userId });
+
+//     if (result.deletedCount === 0) {
+//       return NextResponse.json({ success: false, message: "No cart items found for the user" }, { status: 404 });
+//     }
+
+//     return NextResponse.json({ success: true, message: "cart item deleted successfully" });
+//   } catch (error) {
+//     console.error('Error in DELETE /api/cart:', error);
+//     return NextResponse.json({ success: false, message: error.message || 'Internal server error' }, { status: 500 });
+//   }
+// }
+
+
 export async function DELETE(request) {
   try {
     await connectDB();
@@ -99,18 +129,28 @@ export async function DELETE(request) {
 
     const { searchParams } = new URL(request.url);
     const userId = searchParams.get('userId');
+    const itemId = searchParams.get('itemId');
 
     if (!userId) {
       return NextResponse.json({ success: false, message: "User ID is required" }, { status: 400 });
     }
 
-    const result = await CartModel.deleteMany({ user: userId });
-
-    if (result.deletedCount === 0) {
-      return NextResponse.json({ success: false, message: "No cart items found for the user" }, { status: 404 });
+    let result;
+    if (itemId) {
+      // Delete a single item
+      result = await CartModel.deleteOne({ user: userId, _id: itemId });
+      if (result.deletedCount === 0) {
+        return NextResponse.json({ success: false, message: "Item not found in the cart" }, { status: 404 });
+      }
+    } else {
+      // Delete all items for the user
+      result = await CartModel.deleteMany({ user: userId });
+      if (result.deletedCount === 0) {
+        return NextResponse.json({ success: false, message: "No cart items found for the user" }, { status: 404 });
+      }
     }
 
-    return NextResponse.json({ success: true, message: "cart item deleted successfully" });
+    return NextResponse.json({ success: true, message: itemId ? "Item deleted successfully" : "All cart items deleted successfully" });
   } catch (error) {
     console.error('Error in DELETE /api/cart:', error);
     return NextResponse.json({ success: false, message: error.message || 'Internal server error' }, { status: 500 });
